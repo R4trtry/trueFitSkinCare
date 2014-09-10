@@ -30,7 +30,7 @@ def main():
   category = categories[-1]
 
   # if no such directory for the html, create on
-  category_path = './sephora/' + category
+  category_path = '../scraping/sephora/' + category
   if not os.path.isdir(category_path):
       os.makedirs(category_path)
   # in case aborted, check what pages have been scraped
