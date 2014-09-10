@@ -21,11 +21,13 @@ def clean_maincontent(filepath):
   product_name = re.sub("'","''", re.findall(r'<br>\s+(.*?)</h1>',htmltext)[0])
   sku_id       = re.findall(r'value OneLinkNoTx">(\w+)</span>',htmltext)[0]
   try:
-    ingredients  = re.sub("'","''",re.findall(r'<p class="sku-ingredients">(.*?)</p>', htmltext)[0])
+    ingredients  = re.sub("'","''",'\n'.join(re.split(r'<.*?>', re.findall(r'<p class="sku-ingredients">(.*?)</p>', htmltext)[0])))
   except:
     ingredients = ''
+  ingredients = re.sub('\xef\xbc\x88', '(', ingredients)
+  ingredients = re.sub('\xef\xbc\x89', ')', ingredients)
   price         = re.findall(r'<span class="price">(.*?)</span>', htmltext)[0]
-  discription   = re.sub("'","''",'\n'.join(re.split(r'<.+>', re.findall(r'"short-description hidden">\s+([\S\s]*?)</div>',htmltext)[0])))
+  discription   = re.sub("'","''",'\n'.join(re.split(r'<.*?>', re.findall(r'"short-description hidden">\s+([\S\s]*?)</div>',htmltext)[0])))
  
  # print '\t'.join((product_id, sku_id, str(len(str(ingredients))), str(len(discription)), brand, product_name, price))
 

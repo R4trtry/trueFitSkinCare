@@ -25,7 +25,6 @@ for category in folders:
   files = [f for f in os.listdir(category_path) if not re.search('_',f) ]
   
   for filepath in files:
-    counter += 1
 
     # get product info using data_cleaning functions
     p = data_cleaning.clean_maincontent(category_path + filepath) 
@@ -39,11 +38,12 @@ for category in folders:
       # Commit your changes in the database
       db.commit()
       print 'inserted ' + str(counter) + ' rows...'
+      counter += 1
     except MySQLdb.Error as e:
       # Rollback in case there is any error
       db.rollback()
       if e.args[0] == 1062:
-        print 'Product {0} already in database...'
+        print 'Product {0} already in database...'.format(p[0])
         continue
       else:
         print sql
