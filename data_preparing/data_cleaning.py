@@ -5,6 +5,7 @@
 #          make them ready to be dumping into db
 
 import re
+from dateutil.parser import parse
 
 def main():
   print "clean"
@@ -38,8 +39,8 @@ def clean_review(filepath):
   f = open(filepath)
   htmltext = f.read()
   f.close()
-  product_id = filepath[0:-13]
-  reviews = {}
+  product_id   = re.split(r'/',filepath)[-1][0:-13]
+  reviews = []
 
   # separate review blocks
   review_blocks = re.split('<div id="BVRRDisplayContentReviewID_',htmltext)[1:]
@@ -47,24 +48,46 @@ def clean_review(filepath):
   for text in review_blocks:
     # review info
     review_id     = re.findall(r'(\w+)"',text)[0]
-    rating        = re.findall(r'"BVImgOrSprite" alt="(\w)',text)[0]
-    quick_take    = re.findall(r'"BVRRTag">([\w\s]+)</span>',text)
-    review_text   = re.findall(r'<span class="BVRRReviewText">(.*?)</span>',text)
-
+    try:
+      rating      = re.findall(r'"BVImgOrSprite" alt="(\w)',text)[0]
+    except:
+      rating      = '0'
+    quick_take    = ', '.join(re.findall(r'"BVRRTag">([\w\s]+)</span>',text))
+    try:
+      review_text   = re.sub('"',"''",re.sub("'","''",re.findall(r'<span class="BVRRReviewText">(.*?)</span>',text)[0]))
+    except:
+      review_text = ''
+    review_text   = re.sub(r"\\", "",review_text)
+    try:
+      review_time   = parse(re.findall(r'BVRRReviewDate">(\S+)</span>',text)[0]).strftime("%Y-%m-%d")
+      votes         = re.findall(r'<span class="BVDINumber">(\w+)</span>',text)
+      helpful       = votes[0]
+      nohelpful     = votes[1]
+    except:
+      continue
     # reviewer info
     reviewer_name = re.findall(r'"BVRRNickname">(\S+ )<',text)[0]
-    reviewer_loc  = re.findall(r'BVRRUserLocation">([\w\s]+)</span>', text)
-    reviewer_skin = re.findall(r'BVRRContextDataValueskinType">([\w\s]+)</span>', text)
-    reviewer_age  = re.findall(r'BVRRContextDataValueage">([\w\s]+)</span>', text)
+    try:
+        reviewer_loc  = re.findall(r'BVRRUserLocation">([\w\s]+)</span>', text)[0]
+    except:
+        reviewer_loc  = ''
+    try:
+        reviewer_skin = re.findall(r'BVRRContextDataValueskinType">([\w\s]+)</span>', text)[0]
+    except:
+        reviewer_skin = ''
+    try:
+        reviewer_age  = re.findall(r'BVRRContextDataValueage">([\w\s]+)</span>', text)[0]
+    except:
+        reviewer_age  = ''
     if reviewer_name != 'Anonymous ':
-      reviewer_id = re.findall(r'_ReadAllReviews_(\w+)\" class',text)[0]
+        reviewer_id = re.findall(r'_ReadAllReviews_(\w+)\" class',text)[0]
     else:
-      reviewer_id = 0
-      continue
+        reviewer_id = 0
+        continue
 
-    return (review_id, rating, quick_take, review_text, reviewer_name, reviewer_loc, reviewer_skin, reviewer_name, reviewer_id )
+    reviews.append((review_id, rating, quick_take, review_text, product_id, review_time, helpful, nohelpful, reviewer_id, reviewer_name, reviewer_loc, reviewer_skin, reviewer_age))
 
-
+  return reviews
 
 
 if __name__ == "__main__":
