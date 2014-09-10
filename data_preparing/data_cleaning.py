@@ -16,18 +16,20 @@ def clean_maincontent(filepath):
   f.close()
 
   product_id   = filepath[0:-5]
-  brand        = re.findall(r'class="brand-link">(.*?)</a>',htmltext)[0]
+  brand        = re.sub("'","''", re.findall(r'class="brand-link">(.*?)</a>',htmltext)[0])
   brand_id     = re.findall(r'"brand-name"><a href="/(\S+)\?icid2',htmltext)[0]
-  product_name = re.findall(r'<br>\s+(.*?)</h1>',htmltext)[0]
+  product_name = re.sub("'","''", re.findall(r'<br>\s+(.*?)</h1>',htmltext)[0])
   sku_id       = re.findall(r'value OneLinkNoTx">(\w+)</span>',htmltext)[0]
-  ingredients  = re.sub("'","''",re.findall(r'<p class="sku-ingredients">(.*?)</p>', htmltext))
-  price        = re.findall(r'<span class="price">(.*?)</span>', htmltext)[0]
-  discription  = re.sub("'","''",'\n'.join(re.split(r'<.+>', re.findall(r'"short-description hidden">\s+([\S\s]*?)</div>',htmltext)[0])))
-    
+  try:
+    ingredients  = re.sub("'","''",re.findall(r'<p class="sku-ingredients">(.*?)</p>', htmltext)[0])
+  except:
+    ingredients = ''
+  price         = re.findall(r'<span class="price">(.*?)</span>', htmltext)[0]
+  discription   = re.sub("'","''",'\n'.join(re.split(r'<.+>', re.findall(r'"short-description hidden">\s+([\S\s]*?)</div>',htmltext)[0])))
+ 
  # print '\t'.join((product_id, sku_id, str(len(str(ingredients))), str(len(discription)), brand, product_name, price))
 
-  return (product_id, sku_id, ingredients, discription, brand, product_name, price)
-
+  return (product_id,sku_id,product_name,brand,brand_id,category,price,ingredients,discription)
 
 # return field values given a datafile 
 def clean_review(filepath):
