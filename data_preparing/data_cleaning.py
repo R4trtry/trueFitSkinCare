@@ -11,11 +11,11 @@ def main():
 
 
 def clean_maincontent(filepath):
-  f = open(category_path+filepath)
+  f = open(filepath)
   htmltext = f.read()
   f.close()
 
-  product_id   = filepath[0:-5]
+  product_id   = re.split(r'/',filepath)[-1][0:-5]
   brand        = re.sub("'","''", re.findall(r'class="brand-link">(.*?)</a>',htmltext)[0])
   brand_id     = re.findall(r'"brand-name"><a href="/(\S+)\?icid2',htmltext)[0]
   product_name = re.sub("'","''", re.findall(r'<br>\s+(.*?)</h1>',htmltext)[0])
@@ -29,7 +29,7 @@ def clean_maincontent(filepath):
  
  # print '\t'.join((product_id, sku_id, str(len(str(ingredients))), str(len(discription)), brand, product_name, price))
 
-  return (product_id,sku_id,product_name,brand,brand_id,category,price,ingredients,discription)
+  return (product_id,sku_id,product_name,brand,brand_id,price,ingredients,discription)
 
 # return field values given a datafile 
 def clean_review(filepath):
