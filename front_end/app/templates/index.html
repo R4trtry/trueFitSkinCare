@@ -19,11 +19,20 @@
     <script type="text/javascript">
 
     function init_dw_Scroll() {
-        var wndo = new dw_scrollObj('wn', 'lyr');
-        wndo.buildScrollControls('scrollLinks', 'h');
-
+        var wndo = new dw_scrollObj('wn0', 'lyr0');
+        wndo.buildScrollControls('scrollLinks0', 'h');
         var wndo = new dw_scrollObj('wn1', 'lyr1');
         wndo.buildScrollControls('scrollLinks1', 'h');
+        var wndo = new dw_scrollObj('wn2', 'lyr2');
+        wndo.buildScrollControls('scrollLinks2', 'h');
+        var wndo = new dw_scrollObj('wn3', 'lyr3');
+        wndo.buildScrollControls('scrollLinks3', 'h');
+        var wndo = new dw_scrollObj('wn4', 'lyr4');
+        wndo.buildScrollControls('scrollLinks4', 'h');
+        var wndo = new dw_scrollObj('wn5', 'lyr5');
+        wndo.buildScrollControls('scrollLinks5', 'h');
+        var wndo = new dw_scrollObj('wn6', 'lyr6');
+        wndo.buildScrollControls('scrollLinks6', 'h');
     }
 
     // if code supported, link in the style sheet (optional) and call the init function onload
@@ -87,7 +96,7 @@
       <!-- </td>
       </tr></table> -->
       <div class="scrollers">
-        <span style="font-size:24px">Face Serum </span>choose your favorite
+        <!-- <span style="font-size:24px">Face Serum </span>choose your favorite
         <div class="wn" id="wn"><div id="lyr"><ul class="horiz" id="horiz"></ul></div></div><br>
         <div class="scrollLinks" id="scrollLinks" style="visibility: visible;">
           <div id="wn_h_left" class="left"></div>
@@ -99,7 +108,7 @@
         <div class="scrollLinks" id="scrollLinks1" style="visibility: visible;">
           <div id="wn_h_left" class="left"></div>
           <div id="wn_h_right" class="right"></div>
-        </div><br>
+        </div><br> -->
       </div>
       <!-- <div id="wn"><div id="lyr1"><ul id="horiz"></ul></div></div> -->
 <!-- 
@@ -142,26 +151,23 @@
               'db_json',
               {success:
                 function(data) {
-                  products = data.products;
-                  counter = 0;
-                  for (i=0; i < products.length; i++) {//products.length
-                    if (products[i]['category']=='face-serum') {
-                      src = '/static/images/'+products[i]['sku_id'] + '.jpg'
-                      str = '<li><img class="products_img" id="screen'+ (i+1).toString() + '" src="'+src+'" class="screen2"></li>'
-                      $('#horiz').append(str);
-                      if (counter++==15){break};
+                  var categories = ['face-serum','moisturizer-skincare','eye-cream-dark-circles','face-mask','face-wash-facial-cleanser','facial-toner-skin-toner','night-cream','bb-cream-cc-cream'];
+                  for (j=0;j< categories.length;j++){
+                    js = j.toString();
+                    $("#scrollers").append('<span style="font-size:24px">'+ categories[j] +'</span>choose your favorite<div class="wn" id="wn'+js+'"><div id="lyr'+js+'"><ul class="horiz" id="horiz'+js+'"></ul></div></div><br><div class="scrollLinks'+js+'" id="scrollLinks" style="visibility: visible;"><div id="wn_h_left" class="left"></div><div id="wn_h_right" class="right"></div></div><br>');
+
+                    products = data.products;
+                    counter = 0;
+                    for (i=0; i < products.length; i++) {//products.length
+                      if (products[i]['category']=='face-serum') {
+                        src = '/static/images/'+products[i]['sku_id'] + '.jpg'
+                        str = '<li><img class="products_img" id="screen'+ (i+1).toString() + '" src="'+src+'" class="screen2"></li>'
+                        $(window['#horiz'+ j.toString()]).append(str);
+                        if (counter++==30){break};
+                      }
                     }
                   }
-                  products = data.products;
-                  counter = 0;
-                  for (i=0; i < products.length; i++) {//products.length
-                    if (products[i]['category']=='moisturizer-skincare') {
-                      src = '/static/images/'+products[i]['sku_id'] + '.jpg'
-                      str = '<li><img class="products_img" id="screen'+ (i+1).toString() + '" src="'+src+'" class="screen2"></li>'
-                      $('#horiz1').append(str);
-                      if (counter++==30){break};
-                    }
-                  }
+
                 }
               }
             )
