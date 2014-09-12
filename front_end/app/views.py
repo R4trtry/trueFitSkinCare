@@ -51,12 +51,15 @@ def cities_page():
 @app.route("/db_json")
 def images_json():
     # category = $("#someId").val()
-    db.query("SELECT sku_id, category FROM Product;")
+    db.query("SELECT product.sku_id, category, count(distinct review_id) as ct \
+        from product join review where product.product_id = review.product_id \
+        group by product.product_id order by ct desc;")
 
     query_results = db.store_result().fetch_row(maxrows=0)
     products = []
     for result in query_results:
         products.append(dict(sku_id=result[0], category=result[1]))
+    # print products[0]['category']
     return jsonify(dict(products=products))
 
 # @app.route("/<category>")

@@ -38,3 +38,13 @@ table {
     margin: 1em;
     width: 40%;
 }
+
+form#category{
+    font-size:larger;
+}
+
+.products_img {
+    margin: 2px; 
+    border:1px solid #021a40;
+    background-color:#fff;
+}
