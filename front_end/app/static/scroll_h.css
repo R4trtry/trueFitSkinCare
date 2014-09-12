@@ -1,0 +1,42 @@
+/* NOTE; specs for #wn in head of demo too */
+div#wn	{ 
+    position:relative; /* scroll area div must be positioned */
+    width:800px; height:150px; /* width and height required. adjust to suit  */
+    overflow:hidden; /* required! */
+	}
+
+/* styles to display list items horizontally */
+ul#horiz {
+    list-style:none; margin:0; padding:0;
+    white-space:nowrap;
+    }
+ul#horiz li {
+    display:inline;
+    white-space:nowrap;
+    }
+    
+/* style scrollLinks to suit your taste and layout. */
+div#scrollLinks {
+    position:relative;
+    width:180px;
+    }
+div#scrollLinks .left {
+    background-image:url('./images/tri-lft.gif');
+    background-repeat:no-repeat;
+    width:12px; height:12px; /* specify width and height of your image */
+    position:absolute; left:30px;
+    }
+div#scrollLinks .right {
+    background-image:url('./images/tri-rt.gif');
+    background-repeat:no-repeat;
+    width:12px; height:12px; /* specify width and height of your image */
+    position:absolute; right:30px;
+    }
+
+/* safari, chrome, opera have very prominent outline by default 
+   opera shows outline movement with scrolling and won't allow none
+   set to suit your page design
+*/
+div#wn:focus {
+    outline:1px dotted #eee;
+    }    
