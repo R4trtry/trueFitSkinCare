@@ -7,7 +7,9 @@ body {
 }
 
 table {
-    border: 1px solid black;
+    width:100%;
+    border: 1px solid white;
+
 }
 
 .buttonbox {
@@ -48,3 +50,144 @@ form#category{
     border:1px solid #021a40;
     background-color:#fff;
 }
+
+.ui-tooltip {
+    font-size:12pt;
+}
+
+#button {
+    margin-top: 60px;
+    -moz-box-shadow:inset 0px 0px 9px -1px #fceaca;
+    -webkit-box-shadow:inset 0px 0px 9px -1px #fceaca;
+    box-shadow:inset 0px 0px 9px -1px #fceaca;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffce79), color-stop(1, #eeaf41) );
+    background:-moz-linear-gradient( center top, #ffce79 5%, #eeaf41 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffce79', endColorstr='#eeaf41');
+    background-color:#ffce79;
+    -webkit-border-top-left-radius:18px;
+    -moz-border-radius-topleft:18px;
+    border-top-left-radius:18px;
+    -webkit-border-top-right-radius:18px;
+    -moz-border-radius-topright:18px;
+    border-top-right-radius:18px;
+    -webkit-border-bottom-right-radius:18px;
+    -moz-border-radius-bottomright:18px;
+    border-bottom-right-radius:18px;
+    -webkit-border-bottom-left-radius:18px;
+    -moz-border-radius-bottomleft:18px;
+    border-bottom-left-radius:18px;
+    text-indent:-3px;
+    border:1px solid #eeb44f;
+    display:inline-block;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:18px;
+    font-weight:bold;
+    font-style:normal;
+    height:50px;
+    line-height:50px;
+    width:200px;
+    text-decoration:none;
+    text-align:center;
+    text-shadow:1px 4px 6px #ce8e28;
+}
+#button:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eeaf41), color-stop(1, #ffce79) );
+    background:-moz-linear-gradient( center top, #eeaf41 5%, #ffce79 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeaf41', endColorstr='#ffce79');
+    background-color:#eeaf41;
+}
+#button:active {
+    position:relative;
+    top:1px;
+}
+
+/*div.category {
+  text-align: left;
+  font-size: 0.9em;
+  color: rgb(240, 240, 240);
+  text-shadow: 0px 1px 1px black;
+  width: inherit;
+  
+  &.closed {
+    ul {
+      margin-top: 0px;
+      li {
+        margin-top: -40px;
+        height: 0px;
+      }
+    }
+    div.title:after {
+      margin-top: -14px;
+      @include transform(rotate(0deg));
+    }
+  }
+  
+  div.title {
+    width: 100%;
+    height: 40px;
+    border: 1px solid rgba(25,25,25,0.3);
+    padding: 12px;
+    cursor: pointer;
+    @include box-sizing("border-box");
+    @include background-image(linear-gradient(top, rgba(230, 230, 230, $list_opacity), rgba(160, 160, 160, $list_opacity)));
+    @include border-radius($border_radius);
+    @include box-shadow(0px 1px 0px 0px rgba(0,0,0,0.3), 0px 2px 6px rgba(0,0,0,0.3));
+    
+    &:after {
+      display: block;
+      content: "▾";
+      position: absolute;
+      right: 20px;
+      margin-top: -12px;
+      @include transform(rotate(180deg));
+    }
+  }
+  
+  ul {
+    overflow: hidden;
+    @include transition(margin-top 1s);
+    @include box-sizing("border-box");
+    @include box-shadow(0px 1px 0px 0px rgba(0,0,0,0.3), 0px 2px 6px rgba(0,0,0,0.3));
+    @include border-radius(0px 0px $border_radius $border_radius);
+    
+    li {
+      width: 100%;
+      height: 40px;
+      border: 1px solid rgba(25,25,25,0.3);
+      padding: 12px;
+      vertical-align: top;
+      overflow: hidden;
+      cursor: pointer;
+      @include transition(margin-top 0.5s, height 0.5s);
+      @include box-sizing("border-box");
+      @include background-image(linear-gradient(top, rgba(230, 230, 230, $list_opacity), rgba(160, 160, 160, $list_opacity)));
+      
+      &:first-child {
+        border-bottom: none;
+        border-top: none;
+      }
+      &:last-child {
+        border-top: none;
+        @include border-radius(0px 0px $border_radius $border_radius);
+      }
+      &:hover {
+        text-shadow: 0px 1px 1px black, 0px 0px 4px white;
+      }
+      &:before {
+        content: " ";
+        display: inline-block;
+        position: relative;
+        background: transparent url("http://www.carlcalderon.com/pen/img/line-stop.png");
+        margin-top: -12px;
+        margin-right: 10px;
+        width: 20px;
+        height: 40px;
+        @include opacity(0.7);
+        @include transition(all 0.5s);
+      }
+    }
+  }
+}
+
+*/

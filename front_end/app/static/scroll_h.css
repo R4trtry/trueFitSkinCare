@@ -11,7 +11,6 @@ div.wn	{
 ul.horiz {
     list-style:none; margin:0; padding:0;
     white-space:nowrap;
-
     }
 /*ul#horiz {
     position:absolute;
@@ -33,16 +32,18 @@ div.scrollLinks {
     }
 
 div.scrollLinks .left {
-    background-image:url('./images/tri-lft.gif');
+    background-image:url('/static/images/tri-lft.gif');
     background-repeat:no-repeat;
     width:12px; height:12px; /* specify width and height of your image */
-    position:absolute; left:30px;
+    position:absolute; left:30px;    
+    visibility: visible;
     }
 div.scrollLinks .right {
-    background-image:url('./images/tri-rt.gif');
+    background-image:url('/static/images/tri-rt.gif');
     background-repeat:no-repeat;
     width:12px; height:12px; /* specify width and height of your image */
     position:absolute; right:30px;
+    visibility: visible;
     }
 
 /* safari, chrome, opera have very prominent outline by default 
@@ -52,3 +53,11 @@ div.scrollLinks .right {
 div.wn:focus {
     outline:1px dotted #eee;
     }    
+
+ .description {
+    display:none;
+    position:absolute;
+    border:1px solid #000;
+    width:400px;
+    height:400px;
+}
