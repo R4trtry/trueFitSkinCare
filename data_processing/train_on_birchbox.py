@@ -57,19 +57,21 @@ def main():
     balanced_featuresets = balance_featuresets(featuresets)
     print "After balancing, {0} feature sets used for training...".format(len(balanced_featuresets))
 
-    tp = int(round(len(balanced_featuresets)/10))
-    random.shuffle(balanced_featuresets) #23.1 ms
-    train_set, test_set = balanced_featuresets[tp:], balanced_featuresets[:tp] #5.47 ms
-    classifier = nltk.NaiveBayesClassifier.train(train_set) #329 ms
-    # classifier = nltk.DecisionTreeClassifier.train(train_set)
-    accuracy = nltk.classify.accuracy(classifier, test_set) #232 ms"
+    for itera in range(10):
+        print "Trial "+str(itera) +"..."
+        tp = int(round(len(balanced_featuresets)/10))
+        random.shuffle(balanced_featuresets) #23.1 ms
+        train_set, test_set = balanced_featuresets[tp:], balanced_featuresets[:tp] #5.47 ms
+        classifier = nltk.NaiveBayesClassifier.train(train_set) #329 ms
+        # classifier = nltk.DecisionTreeClassifier.train(train_set)
+        accuracy = nltk.classify.accuracy(classifier, test_set) #232 ms"
 
-    labels = [test[1] for test in test_set]
-    predicted_labels = [ classifier.classify(test[0]) for test in test_set]
-    # Precision, which indicates how many of the items that we identified were relevant, is TP/(TP+FP).
-    # Recall, which indicates how many of the relevant items that we identified, is TP/(TP+FN).
-    (precision,recall) = precision_recall(labels, predicted_labels)
-    print "Testing metrics:\n\tAccuracy={0}...\n\tPrecision={1}...\n\tRecall={2}".format(accuracy,precision,recall)
+        labels = [test[1] for test in test_set]
+        predicted_labels = [ classifier.classify(test[0]) for test in test_set]
+        # Precision, which indicates how many of the items that we identified were relevant, is TP/(TP+FP).
+        # Recall, which indicates how many of the relevant items that we identified, is TP/(TP+FN).
+        (precision,recall) = precision_recall(labels, predicted_labels)
+        print "Testing metrics:\n\tAccuracy={0}...\n\tPrecision={1}...\n\tRecall={2}".format(accuracy,precision,recall)
 
     classifier = nltk.NaiveBayesClassifier.train(balanced_featuresets) #329 ms
     f = open('birch_NB_classifier.pickle', 'wb')
@@ -143,6 +145,6 @@ def precision_recall(labels, predicted_labels):
 def count_true(alist):
     return sum(1 for a in alist if a)
     
-    
+
 if __name__=="__main__":
     main()

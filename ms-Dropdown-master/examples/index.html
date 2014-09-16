@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Javascript image dropdown - basic</title>
+<!-- <link rel="stylesheet" href="css/sample.css" /> -->
+<script src="../js/jquery/jquery-1.9.0.min.js"></script>
+<!-- <msdropdown> -->
+<link rel="stylesheet" type="text/css" href="../css/msdropdown/dd.css" />
+<script src="../js/msdropdown/jquery.dd.min.js"></script>
+<!-- </msdropdown> -->
+</head>
+<body>
+
+    <select id="payments" name="payments" style="width:200px;">
+        <option value="" data-description="choose your favorite">Face cleaner</option>
+        <option value="amex" data-image="../images/msdropdown/47191.jpg" data-discription="Clinique"</option>
+        <option value="Discover" data-image="../images/msdropdown/47191.jpg"</option>
+        <option value="Mastercard" data-image="../images/msdropdown/47191.jpg"</option>
+        <option value="cash" data-image="../images/msdropdown/47191.jpg"</option>
+        <option value="Visa" data-image="../images/msdropdown/47191.jpg"</option>
+        <option value="Paypal" data-image="../images/msdropdown/47191.jpg" </option>
+    </select>
+
+    <select id="payments2" name="payments" style="width:170px;">
+        <option value="" data-description="Choos your payment gateway">Payment Gateway</option>
+        <option value="amex" data-image="../images/msdropdown/icons/Amex-56.png"</option>
+        <option value="Discover" data-image="../images/msdropdown/icons/Discover-56.png"</option>
+        <option value="Mastercard" data-image="../images/msdropdown/icons/Mastercard-56.png"</option>
+        <option value="cash" data-image="../images/msdropdown/icons/Cash-56.png"</option>
+        <option value="Visa" data-image="../images/msdropdown/icons/Visa-56.png"</option>
+        <option value="Paypal" data-image="../images/msdropdown/icons/Paypal-56.png" </option>
+    </select>
+
+<script>
+//var tc;
+$(document).ready(function(e) {
+	$("#payments").msDropdown();
+  $("#payments2").msDropdown();
+});
+
+
+
+</script>
+
+</body>
+</html>

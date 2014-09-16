@@ -24,7 +24,6 @@ def cate_filter(score, category, product_list):
     return product_list.sort('score',ascending=False)
 
 def recommender(ratingMatrix, test, category, product_list):
-    similarity = cosine_similarity(test, ratingMatrix)[0]
     count = np.array([len(row.nonzero()[0]) for row in ratingMatrix.transpose()])
     score = ratingMatrix.transpose()*(similarity**5)
     product_c = cate_filter(score/count,category,product_list)
@@ -56,8 +55,15 @@ def prepare():
         for key in product_rating.keys():
             score[key] = product_rating[key]
         reviewer_product[reviewer] = score.values()
+    
+    print "Calculating similarity score..."
+    sim = cosine_similarity(reviewer_product,reviewer_product)
+    sim[sim>.99] = 0
 
-    return csr_matrix(reviewer_product.values())
+    print "Saving similarity matrix to csv..."
+    np.savetxt("sim_reviewer.csv", sim, delimiter=",")
+    np.savetxt("sim_reviewer2.csv", sim, delimiter=",", fmt='%.2f')
+    return sim
 
 
 def main():

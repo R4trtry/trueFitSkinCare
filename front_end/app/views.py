@@ -3,11 +3,11 @@ from flask import render_template, jsonify
 import MySQLdb
 from app import app
 import MySQLdb
-import collaborative_filter_engine as cfg
+import collaborative_filter_engine2 as cfg
+import numpy as np
 
 db = MySQLdb.connect(user="root", host="localhost", port=3306, db="insight")
-# db = mdb.connect(user="root", host="localhost", db="world_innodb", charset='utf8')
-ratingMatrix = cfg.prepare()
+simMatrix = np.loadtxt('data_processing/sim_product2.csv',delimiter=',')
 
 @app.route("/")
 def hello():
@@ -23,16 +23,22 @@ def results():
 def result_json():
     test         = 21   
     category     ='face-wash-facial-cleanser'
-    product_list = cfg.sql2df('select distinct product_id, sku_id, category from Product order by category;')
-    print "here"
-    scores = cfg.recommender(ratingMatrix, ratingMatrix[test:(test+1)], category, product_list)
+    product_list = cfg.sql2df('select brand, product_name, product_id, sku_id, category from Product order by category;')
+    usrProfile = [123,293,902,694,381]
+    scores = cfg.recommender(simMatrix, usrProfile, category, product_list)
+    print scores[0:10]
+    # return product_c[0:10]
     result = scores[:10]
     result = result.drop('category',1)
     result = result.set_index('product_id')
+
     result['image'] = [r'<img src="/static/images/'+ids+'.jpg">'.encode('Utf-8') for ids in result['sku_id'].tolist()]
     # result'/static/images/'+products[i]['sku_id'] + '.jpg'
     print result.to_html(escape=False)
     result = result.drop('sku_id',1)
+    result = result.reset_index()
+    result = result.drop('product_id',1)
+    result = result.set_index('product_name')
     # result = result[['product_id','image','score']]
     return result.to_html(escape=False)#json()
 
