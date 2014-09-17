@@ -25,9 +25,10 @@ def cate_filter(score, category, product_list):
 
 def recommender(simMatrix, usrProfile, category, product_list):
     # score = ratingMatrix.transpose()*(similarity[])
+    count = np.array([len(row.nonzero()[0]) for row in simMatrix.transpose()])
     score = simMatrix[usrProfile].sum(0)
     print "Making recommendations score..."
-    product_c = cate_filter(score,category,product_list)
+    product_c = cate_filter(score/count,category,product_list)
     print product_c['score'].max()
     product_c['score']=product_c['score']/product_c['score'].max()*4+1
     return product_c
@@ -76,7 +77,8 @@ def prepare_itemcentric():
 def main():
     # category='face-wash-facial-cleanser'
     category = 'face-serum'
-    sim = prepare_itemcentric()
+    # sim = prepare_itemcentric()
+    sim = np.loadtxt("sim_product.csv",delimiter=',')
     product_list = sql2df('select distinct product_id, category from Product order by category, brand;')
     product_c = recommender(sim, [123,293,902,694,381], category, product_list)
     print product_c[0:10]

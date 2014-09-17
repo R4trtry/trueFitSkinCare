@@ -7,6 +7,8 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 from collections import Counter
 import operator
 from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
 
 f = open('birch_NB_classifier.pickle')
 classifier = pickle.load(f)
@@ -14,7 +16,9 @@ f.close()
 
 def main():
     category = 'face-serum'
-    sim = prepare_itemcentric()
+    # sim = prepare_itemcentric()
+    sim = np.loadtxt("sim_product_review2.csv",delimiter=',')
+    # sim = np.loadtxt("sim_product_quicktake2.csv",delimiter=',')
     product_list = sql2df('select distinct product_id, category from Product order by category, brand;')
     product_c = recommender(sim, [123,293,902,694,381], category, product_list)
     print product_c[0:10]
@@ -32,8 +36,8 @@ def sql2df(sql):
     return df
 
 def extract_feature_from_review(review,stopwords,stemmer):
-    review_text = review['review_text']
-#         review_text = review['quick_take']
+    # review_text = review['review_text']
+    review_text = review['quick_take']
     rating = review['rating']
     if rating<=2 :
         sentiment = False
@@ -67,6 +71,11 @@ def document_features(document,ignore):
         for word in document:
             features[word] = True
     return features
+
+def cate_filter(score, category, product_list):
+    score[np.array(product_list['category']!=category)]=0
+    product_list['score']=score
+    return product_list.sort('score',ascending=False)
 
 def precision_recall(labels, predicted_labels):
     TP = []
@@ -131,15 +140,17 @@ def prepare_itemcentric():
     sim[sim>.99] = 0
 
     print "Saving similarity matrix to csv..."
-    np.savetxt("sim_product_review.csv", sim, delimiter=",")
-    np.savetxt("sim_product_review2.csv", sim, delimiter=",", fmt='%.2f')
+    # np.savetxt("sim_product_review.csv", sim, delimiter=",")
+    # np.savetxt("sim_product_review2.csv", sim, delimiter=",", fmt='%.2f')
+    np.savetxt("sim_product_quicktake.csv", sim, delimiter=",")
+    np.savetxt("sim_product_quicktake2.csv", sim, delimiter=",", fmt='%.2f')
     return sim
 
 def recommender(simMatrix, usrProfile, category, product_list):
-    # score = ratingMatrix.transpose()*(similarity[])
+    count = np.array([len(row.nonzero()[0]) for row in simMatrix.transpose()])
     score = simMatrix[usrProfile].sum(0)
     print "Making recommendations score..."
-    product_c = cate_filter(score,category,product_list)
+    product_c = cate_filter(score/count,category,product_list)
     print product_c['score'].max()
     product_c['score']=product_c['score']/product_c['score'].max()*4+1
     return product_c
