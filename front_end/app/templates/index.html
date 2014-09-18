@@ -90,7 +90,7 @@
           <h1 class="float">What do you need today ?</h1>
         </td>
         <td>
-          <form id="category" action="">
+          <form id="category_form" action="">
           <select id="category">
           <option value="moisturizer-skincare">Moisturizer</option>
           <option value="bb-cream-cc-cream">BB & CC cream</option>
@@ -111,7 +111,7 @@
 
    
 
-      <select id="payments" name="payments" style="width:250px;">
+<!--       <select id="payments" name="payments" style="width:250px;">
         <option value="" data-description="Choos your payment gateway">Payment Gateway</option>
         <option value="amex" data-image="static/images/msdropdown/icons/Amex-56.png" </option>
         <option value="Discover" data-image="static/images/msdropdown/icons/Discover-56.png"</option>
@@ -119,7 +119,7 @@
         <option value="cash" data-image="static/images/msdropdown/icons/Cash-56.png"</option>
         <option value="Visa" data-image="static/images/msdropdown/icons/Visa-56.png"</option>
         <option value="Paypal" data-image="static/images/msdropdown/icons/Paypal-56.png"</option>
-      </select>
+      </select> -->
  
 
        
@@ -205,8 +205,12 @@
         $('.screenshots').append(str);
       };      
       var filepath = '/Users/xuanzhang/Developer/python/scrapping/sephora/static/'
-      
-      function btntest_onclick() {window.location.href = "/results";}
+      // var category = $('#category').value;  
+
+      function btntest_onclick() {
+        category = document.getElementById("category").value
+        window.location.href = "/results/"+category;
+      }
 
       $(document).ready(function(e) {
         $("#payments").msDropdown({visibleRows:10});
@@ -220,7 +224,6 @@
           'images_json',
           {success:
             function(data) {
-              console.log(data)
               products = data.products;
               var categories = ['moisturizer-skincare','eye-cream-dark-circles','face-mask','face-wash-facial-cleanser','facial-toner-skin-toner','night-cream','bb-cream-cc-cream','face-serum'];
               for (j=0;j< 8;j++){                    

@@ -18,16 +18,15 @@ def hello():
     return render_template('index.html') 
 
 # load result page
-@app.route("/results")
-def results():
+@app.route("/results/<category>")
+def results(category):
     print "hi!"
-    return render_template('results.html') 
+    return render_template('results.html',category=category)
 
 # load recommendation result and return a html
-@app.route("/result_json")
-def result_json():
+@app.route("/result_json/<category>")
+def result_json(category):
     test         = 21   
-    category     ='face-wash-facial-cleanser'
     product_list = cfg.sql2df('select brand, product_name, product_id, sku_id, category, price from Product order by category;')
     usrProfile = [123,293,902,694,381]
     scores = cfg.recommender(simMatrix, usrProfile, category, product_list)

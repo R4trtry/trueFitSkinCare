@@ -10,12 +10,12 @@
     <title>Results</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="static/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/dist/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="static/starter-template.css" rel="stylesheet">
-    <link href="static/scroll_h.css" rel="stylesheet">
-    <script src="static/js/dw_scroll_c.js" type="text/javascript"></script>
+    <link href="../static/starter-template.css" rel="stylesheet">
+    <link href="../static/scroll_h.css" rel="stylesheet">
+    <script src="../static/js/dw_scroll_c.js" type="text/javascript"></script>
   </head>
 
   <body>
@@ -46,13 +46,32 @@
 
         <table style="width:100%,boarder">
           <!-- <tr> -->
-            <td><h1 class="float">Results goes here</h1></td>
+          <td><h1 class="float">We recommend <p id="category"}>{{category}}</p></h1> 
+            <p>from 1177 products</p>
+            <p>based on 183,944 reviews</p>
+            <p>made by 115,594 reviewers</p></td>
+          <td>
+            <form id="category_form" action="">
+            <select id="category_select">
+            <option value="moisturizer-skincare">Moisturizer</option>
+            <option value="bb-cream-cc-cream">BB & CC cream</option>
+            <option value="eye-cream-dark-circles">Eye cream</option>
+            <option value="face-mask">Face mask</option>
+            <option value="face-serum">Face serum</option>
+            <option value="face-wash-facial-cleanser">Face wash</option>
+            <option value="facial-toner-skin-toner">Toner</option>
+            </select>
+            </form>
+          </td>
           <td>
             <div>
               <input id="button" type="button" value="Need something else?" 
                      onclick="return btntest_onclick()" />
               <script language="javascript" type="text/javascript">
-                function btntest_onclick() {window.location.href = "/";}
+                function btntest_onclick() {
+                  category = document.getElementById('category_select').value;
+                  window.location.href = "/results/"+category;
+                }
               </script>
             </div>
           </td>
@@ -69,8 +88,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="static/js/jquery.js"></script>
-    <script src="static/dist/js/bootstrap.min.js"></script>
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/dist/js/bootstrap.min.js"></script>
     <script>
       function add_image_to_box(index, src) {
         var str = '<img id="screen'+ index.toString() + '" src="'+src+'" class="screen2">'
@@ -78,11 +97,17 @@
         $('.screenshots').append(str);
       };      
       filepath = '/Users/xuanzhang/Developer/python/scrapping/sephora/static/'      
+      
+      var category= document.getElementById("category").textContent;//'eye-cream-dark-circles';//
+      document.getElementById('category_select').value = category;
+      console.log(category)
 
       window.onload=function() {
+        
         var products = [];
+        
         jQuery.ajax(
-          'result_json',
+          '../result_json/'+category,
           {success:
             function(data) {
               console.log(data);
