@@ -1,16 +1,11 @@
-import re
 import MySQLdb
 import pandas as pd
-# import 
 import numpy as np
 import math
-from scipy.sparse import csr_matrix
-from scipy.sparse import isspmatrix_csc
-from sklearn.metrics.pairwise import cosine_similarity
-from collections import Counter
-from collections import OrderedDict
 
 
+# get data from database in the form of pandas dataframe
+# given a sql script
 def sql2df(sql):
     con = MySQLdb.connect('localhost', 'root', '', 'insight')
     with con:
@@ -18,20 +13,29 @@ def sql2df(sql):
         df = pd.read_sql_query(sql,con)
     return df
 
+# filter the recommendations with category 
+# return a list sorted by recommendation score
 def cate_filter(score, category, product_list):
     score[np.array(product_list['category']!=category)]=0
     product_list['score']=score
     return product_list.sort('score',ascending=False)
 
+# recommend list of product in [category] by comparing [usrProfile]
+# with [simMatrix]
 def recommender(simMatrix, usrProfile, category, product_list):
-    # score = ratingMatrix.transpose()*(similarity[])
-    score = simMatrix[usrProfile].sum(0)
+    
     print "Making recommendations score..."
+    score = simMatrix[usrProfile].sum(0)
     product_c = cate_filter(score,category,product_list)
-    print product_c['score'].max()
+    
+    # normalizing the score such that it's 1-5
     product_c['score']=product_c['score']/product_c['score'].max()*4+1
     return product_c
 
+
+#---------------------------------------------------------------#
+# below are used for training, not used in the front end app    #
+#---------------------------------------------------------------#
 def prepare_itemcentric():
     product_list = sql2df('select distinct product_id, category from Product order by category, brand;')
     product_id = product_list['product_id'].tolist()

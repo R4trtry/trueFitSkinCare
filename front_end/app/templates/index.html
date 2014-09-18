@@ -191,17 +191,6 @@
         <br>
         
       </div>
-
-
-      <br><br><br><br><br>      
-<!--       <div id="screenshot_section" style="margin-bottom: 10px">
-        <div class="new_subheader"></div>
-        <div class="screenshot_container" id="screenshot_container">
-          <div class="screenshots" id="screens" style="-webkit-transition: all 0s ease 0s; transition: all 0s ease 0s; left: 0px;">
-
-          </div>
-        </div>
-      </div> -->
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -216,36 +205,22 @@
         $('.screenshots').append(str);
       };      
       var filepath = '/Users/xuanzhang/Developer/python/scrapping/sephora/static/'
-      // window.onload=query_for_cities();
-
-      // $( "#category" ).change(function() {
-      //   alert( "Handler for .change() called." );
-      // });
-      function btntest_onclick() {window.location.href = "/results";}
       
-      // $(document).ready(function(e) {
-      //   $("#webmenu").msDropDown();
-      // })
-
-      // $("#products_img").on("click", function() {
-      //     $(this).css("boarder", "1px solid red;");
-      // })
-
+      function btntest_onclick() {window.location.href = "/results";}
 
       $(document).ready(function(e) {
         $("#payments").msDropdown({visibleRows:10});
       });
 
 
-
-
       window.onload=function() {
 
         var products = [];
         jQuery.ajax(
-          'db_json',
+          'images_json',
           {success:
             function(data) {
+              console.log(data)
               products = data.products;
               var categories = ['moisturizer-skincare','eye-cream-dark-circles','face-mask','face-wash-facial-cleanser','facial-toner-skin-toner','night-cream','bb-cream-cc-cream','face-serum'];
               for (j=0;j< 8;j++){                    
