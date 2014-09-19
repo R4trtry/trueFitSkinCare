@@ -1,0 +1,30 @@
+section {
+  display: inline-block;
+  width: 18%;
+  margin: 2%;
+}
+
+.main-select {
+  width: 200px;
+}
+
+.ddArrow{
+  background:url(../../static/images/msdropdown/skin1/dd_arrow.gif) no-repeat !important;
+}
+
+.ddTitle{
+  background:#e2e2e4 url(../../static/images/msdropdown/skin1/title-bg.gif) repeat-x left top !important;
+}
+
+.ddTitleText img{
+  width: 97%;	
+  margin-bottom: -16px;
+}
+
+.divider {
+  margin: 2% 0;
+}
+
+.description {
+  visibility: hidden;
+}
