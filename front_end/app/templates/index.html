@@ -18,39 +18,42 @@
     <!-- <script src="static/js/jquery-1.9.0.min.js" type="text/javascript"></script> -->
     <script src="static/js/jquery-2.1.1.js" type="text/javascript"></script>
     
-    <link href="static/scroll_h.css" rel="stylesheet">
-    <script src="static/js/dw_scroll_c.js" type="text/javascript"></script>
-    <script src="static/js/jquery.dd.min.js" type="text/javascript"></script>
-    <!-- <script src="static/js/jquery.dd.js" type="text/javascript"></script> -->
+    <!-- <link href="static/scroll_h.css" rel="stylesheet"> -->
+    <!-- <script src="static/js/w_scroll_c.js" type="text/javascript"></script> --> 
+    <script src="static/js/jquery.dd.js" type="text/javascript"></script>
+
+
+    <link href="static/styles.css" rel="stylesheet">
+    <!-- <script src="static/js/jquery.dd.js" type="text/javascript"></script>
 
     <!-- <script src="mouseover_popup.js" language="JavaScript" type="text/javascript"></script> -->
     <!-- <script> $(function() {$( document ).tooltip(); }); </script> -->
     <script type="text/javascript">
 
-    function init_dw_Scroll() {
-        var wndo = new dw_scrollObj('wn0', 'lyr0');
-        wndo.buildScrollControls('scrollLinks0', 'h');
-        var wndo = new dw_scrollObj('wn1', 'lyr1');
-        wndo.buildScrollControls('scrollLinks1', 'h');
-        var wndo = new dw_scrollObj('wn2', 'lyr2');
-        wndo.buildScrollControls('scrollLinks2', 'h');
-        var wndo = new dw_scrollObj('wn3', 'lyr3');
-        wndo.buildScrollControls('scrollLinks3', 'h');
-        var wndo = new dw_scrollObj('wn4', 'lyr4');
-        wndo.buildScrollControls('scrollLinks4', 'h');
-        var wndo = new dw_scrollObj('wn5', 'lyr5');
-        wndo.buildScrollControls('scrollLinks5', 'h');
-        var wndo = new dw_scrollObj('wn6', 'lyr6');
-        wndo.buildScrollControls('scrollLinks6', 'h');
-        var wndo = new dw_scrollObj('wn7', 'lyr7');
-        wndo.buildScrollControls('scrollLinks7', 'h');
-    }
+    // function init_dw_Scroll() {
+    //     var wndo = new dw_scrollObj('wn0', 'lyr0');
+    //     wndo.buildScrollControls('scrollLinks0', 'h');
+    //     var wndo = new dw_scrollObj('wn1', 'lyr1');
+    //     wndo.buildScrollControls('scrollLinks1', 'h');
+    //     var wndo = new dw_scrollObj('wn2', 'lyr2');
+    //     wndo.buildScrollControls('scrollLinks2', 'h');
+    //     var wndo = new dw_scrollObj('wn3', 'lyr3');
+    //     wndo.buildScrollControls('scrollLinks3', 'h');
+    //     var wndo = new dw_scrollObj('wn4', 'lyr4');
+    //     wndo.buildScrollControls('scrollLinks4', 'h');
+    //     var wndo = new dw_scrollObj('wn5', 'lyr5');
+    //     wndo.buildScrollControls('scrollLinks5', 'h');
+    //     var wndo = new dw_scrollObj('wn6', 'lyr6');
+    //     wndo.buildScrollControls('scrollLinks6', 'h');
+    //     var wndo = new dw_scrollObj('wn7', 'lyr7');
+    //     wndo.buildScrollControls('scrollLinks7', 'h');
+    // }
 
     // if code supported, link in the style sheet (optional) and call the init function onload
-    if ( dw_scrollObj.isSupported() ) {
-        dw_Util.writeStyleSheet('static/scroll_h.css');
-        dw_Event.add( window, 'load', init_dw_Scroll);
-    }
+    // if ( dw_scrollObj.isSupported() ) {
+    //     dw_Util.writeStyleSheet('static/scroll_h.css');
+    //     dw_Event.add( window, 'load', init_dw_Scroll);
+    // }
 
     </script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -103,35 +106,130 @@
           </form>
         </td>
         <td><div>
-          <input id="button" type="button" value="Find your true fit" 
-                 onclick="return btntest_onclick()" />
+      <!--     <input id="button" type="button" value="Find your true fit" 
+                 onclick="return btntest_onclick()" /> -->
+
+          <button type="button" class="btn btn-primary" onclick="return btntest_onclick()">Find your true fit</button>
+          <button id="test" type="button" class="btn btn-success" onclick="return btntest_onclick()">Alert Select Value</button>
+          <!-- <input id="test" type="button" value="Alert Selected Value" /> -->
+
           <!-- <img src="static/images/lab.gif" -->
         </div></td>
       </tr></table>
 
    
 
-      <select id="payments" name="payments" style="width:250px;">
+      <!-- <select class="main-select" id="horiz0" name="Moisturizer">
         <option value="" data-description="Choos your payment gateway">Payment Gateway</option>
-        <option value="amex" data-image="static/images/msdropdown/icons/Amex-56.png" </option>
+        <option value="amex" data-image="../static/images/1000454.jpg" </option>
+
+
         <option value="Discover" data-image="static/images/msdropdown/icons/Discover-56.png"</option>
         <option value="Mastercard" data-image="static/images/msdropdown/icons/Mastercard-56.png"</option>
         <option value="cash" data-image="static/images/msdropdown/icons/Cash-56.png"</option>
         <option value="Visa" data-image="static/images/msdropdown/icons/Visa-56.png"</option>
         <option value="Paypal" data-image="static/images/msdropdown/icons/Paypal-56.png"</option>
-      </select>
- 
 
+      </select> -->
+      
+      <h3>Choose your favorite</h3>
+
+      <div class="divider"></div>
+
+      <section>
+        <h4>Moisturizer</h4>
+        <select class="main-select" id="horiz0" name="Moisturizer">
+      </section>
+
+      <section class="hidden">
+        <h4>Moisturizer</h4>
+        <select class="main-select" id="horiz0" name="Moisturizer">
+      </section>
+
+      <section>
+        <h4>Eye cream</h4>
+        <select class="main-select" id="horiz1" name="Eye cream">
+      </section>
+
+      <section>
+        <h4>Eye cream</h4>
+        <select class="main-select" id="horiz1" name="Eye cream">
+      </section>
+
+      <section>
+        <h4>Face Mask</h4>
+        <select class="main-select" id="horiz2" name="Face Mask">
+      </section>
+
+      <section>
+        <h4>Face Mask</h4>
+        <select class="main-select" id="horiz2" name="Face Mask">
+      </section>
+
+      <section>
+        <h4>Face wash</h4>
+        <select class="main-select" id="horiz3" name="Face wash">
+      </section>
+
+      <section>
+        <h4>Face wash</h4>
+        <select class="main-select" id="horiz3" name="Face wash">
+      </section>
+
+      <div class="divider"></div>
+
+      <section>
+        <h4>Face toner</h4>
+        <select class="main-select" id="horiz4" name="Face toner">
+      </section>
+
+      <section>
+        <h4>Face toner</h4>
+        <select class="main-select" id="horiz4" name="Face toner">
+      </section>
+
+      <section>
+        <h4>Night cream</h4>
+        <select class="main-select" id="horiz5" name="Night cream">
+      </section>
+
+      <section>
+        <h4>Night cream</h4>
+        <select class="main-select" id="horiz5" name="Night cream">
+      </section>
+
+      <section>
+        <h4>BB and CC cream</h4>
+        <select class="main-select" id="horiz6" name="BB and CC cream">
+      </section>
+
+      <section>
+        <h4>BB and CC cream</h4>
+        <select class="main-select" id="horiz6" name="BB and CC cream">
+      </section>
+
+      <section>
+        <h4>Face Serum</h4>
+        <select class="main-select" id="horiz7" name="Moisturizer">
+      </section>
+
+      <section>
+        <h4>Face Serum</h4>
+        <select class="main-select" id="horiz7" name="Moisturizer">
+      </section>
+ 
+<!-- 
        
 
-      <div class="scrollers">
+        <div class="scrollers">
         <h2 style="font-size:16pt">Choose your favorite</h2>
         <span style="font-size:14pt">Moisturizer </span>
-        <div class="wn" id="wn0"><div id="lyr0"><ul class="horiz" id="horiz0"></ul></div></div>
+        <div class="wn" id="wn0"><div id="lyr0"></ul></div></div>
         <div class="scrollLinks" id="scrollLinks0" style="visibility: visible;">
           <div id="wn_h_left" class="left"></div>
           <div id="wn_h_right" class="right"></div>
         </div>
+        
         <br>
 
         <span style="font-size:14pt">Eye cream </span>
@@ -191,7 +289,7 @@
         <br>
         
       </div>
-    </div>
+    </div> -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -208,9 +306,6 @@
       
       function btntest_onclick() {window.location.href = "/results";}
 
-      $(document).ready(function(e) {
-        $("#payments").msDropdown({visibleRows:10});
-      });
 
 
       window.onload=function() {
@@ -227,16 +322,28 @@
                 counter = 0;
                 for (i=0; i < products.length; i++) {//products.length
                   if (products[i]['category']==categories[j]) {
-                    src = '/static/images/'+products[i]['sku_id'] + '.jpg'
-                    str = '<li><img class="products_img" id="screen'+ (i+1).toString() + '" src="' + src +'" title="' + products[i]['brand'] + ' ' + products[i]['product_name'] +'"></li>'
+                    src = '../static/images/'+products[i]['sku_id'] + '.jpg'
+                    str = '<option data-image="' + src +'" data-description="screen'+ (i+1).toString() + '" src="' + src +'" value="' + products[i]['brand'] + ' ' + products[i]['product_name'] +'"></option>'
                     // $(window['#horiz'+ j.toString()]).append(str);
                     console.log('#horiz'+j.toString())
                     $('#horiz'+j.toString()).append(str);
                     if (counter++==30){break};
                   }
                 }
-
+       
               }
+            $(".main-select").msDropdown({visibleRows:10});
+
+            $("#test").on("click", function(){
+              var select = [];
+              var currentId = "";
+              for (var i =0; i < 8; i++ ){
+                currentId = $("#horiz" + i + "_title").find(".description").text();
+                select.push(currentId);
+              }
+              alert(select);
+            });
+
             }
           }
         )
