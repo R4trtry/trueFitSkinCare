@@ -71,7 +71,7 @@
               </script>
             </div>
 
-        <button id="myModal" type="button" data-toggle="modal" data-target="#modalDialog">Launch modal</button>
+        <!-- <button id="myModal" type="button" data-toggle="modal" data-target="#modalDialog">Launch modal</button> -->
 
         <div class="modal fade" id="modalDialog">
         <div class="modal-dialog">
@@ -107,12 +107,12 @@
     <script src="../static/js/jquery.js"></script>
     <script src="../static/dist/js/bootstrap.min.js"></script>
     <script>
-      function add_image_to_box(index, src) {
-        var str = '<img id="screen'+ index.toString() + '" src="'+src+'" class="screen2">'
-        console.log(str)
-        $('.screenshots').append(str);
-      };      
-      filepath = '/Users/xuanzhang/Developer/python/scrapping/sephora/static/'      
+      // function add_image_to_box(index, src) {
+      //   var str = '<img id="screen'+ index.toString() + '" src="'+src+'" class="screen2">'
+      //   console.log(str)
+      //   $('.screenshots').append(str);
+      // };      
+      // filepath = '/Users/xuanzhang/Developer/python/scrapping/sephora/static/'      
       
       var category= document.getElementById("category").textContent;//'eye-cream-dark-circles';//
       document.getElementById('category_select').value = category;
@@ -166,7 +166,19 @@
           }
         )
       }
-    $("#product0").click(function(){$('#target0').modal();});
+      setTimeout(function(){
+        $("#product0").click(function(){$('#target0').modal();});
+        $("#product1").click(function(){$('#target1').modal();});
+        $("#product2").click(function(){$('#target2').modal();});
+        $("#product3").click(function(){$('#target3').modal();});
+        $("#product4").click(function(){$('#target4').modal();});
+        $("#product5").click(function(){$('#target5').modal();});
+        $("#product6").click(function(){$('#target6').modal();});
+        $("#product7").click(function(){$('#target7').modal();});
+        $("#product8").click(function(){$('#target8').modal();});
+        $("#product9").click(function(){$('#target9').modal();});
+      }, 1000);
+    
     </script>
   </body>
 </html>
