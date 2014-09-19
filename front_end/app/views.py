@@ -26,17 +26,18 @@ def results(category):
 # load recommendation result and return a html
 @app.route("/result_json/<category>")
 def result_json(category):
-    test         = 21   
+    test    = 21   
+    numRows = 10
     product_list = cfg.sql2df('select brand, product_name, product_id, sku_id, category, price from Product order by category;')
-    usrProfile = [123,293,902,694,381]
+    usrProfile = [299, 684, 834, 246, 482, 1096, 245]#[123,293,902,694,381]
     scores = cfg.recommender(simMatrix, usrProfile, category, product_list)
-    print scores[0:10]
-    result = scores[:10]
+    print scores[0:numRows]
+    result = scores[:numRows]
     result = result.drop('category',1)
     result = result.set_index('product_id')
     result['image'] = [r'<img src="/static/images/'+ids+'.jpg">'.encode('Utf-8') for ids in result['sku_id'].tolist()]
     products = []
-    for id in range(10):
+    for id in range(numRows):
         products.append(dict(product_name=result.ix[id]['product_name'],brand=result.ix[id]['brand'],image=result.ix[id]['image'],price=result.ix[id]['price'],score=result.ix[id]['score']))
     
     return jsonify(dict(products=products))
