@@ -18,27 +18,36 @@ def hello():
     return render_template('index.html') 
 
 # load result page
-@app.route("/results/<category>")
-def results(category):
+@app.route("/results/<inputvar>")
+def results(inputvar):
     print "hi!"
-    return render_template('results.html',category=category)
+    category = inputvar.split('&')[0]
+    usrProfile = '&'+'&'.join(inputvar.split('&')[1:])
+    # print category+usrProfile
+    return render_template('results.html',category=category,usrProfile=usrProfile)
 
 # load recommendation result and return a html
-@app.route("/result_json/<category>")
-def result_json(category):
-    test    = 21   
+@app.route("/result_json/<inputvar>")
+def result_json(inputvar):
+    category = inputvar.split('&')[0]
+    usrProfile = inputvar.split('&')[1:]
     numRows = 10
-    product_list = cfg.sql2df('select brand, product_name, product_id, sku_id, category, price from Product order by category;')
-    usrProfile = [299, 684, 834, 246, 482, 1096, 245]#[123,293,902,694,381]
+    product_list = cfg.sql2df('select brand, product_name, product_id, sku_id, category, price, discription from Product order by category;')
+    sku_id = product_list.sku_id.tolist()
+    usrProfile = [sku_id.index(u) for u in usrProfile]
+    print'\n\n\n\n'
+    print category
+    print usrProfile
+    print'\n\n\n\n'
     scores = cfg.recommender(simMatrix, usrProfile, category, product_list)
     print scores[0:numRows]
     result = scores[:numRows]
     result = result.drop('category',1)
     result = result.set_index('product_id')
-    result['image'] = [r'<img src="/static/images/'+ids+'.jpg">'.encode('Utf-8') for ids in result['sku_id'].tolist()]
+    result['image'] = [r'<img src="/static/images/'+ids+'.jpg" height="182" width="182">'.encode('Utf-8') for ids in result['sku_id'].tolist()]
     products = []
     for id in range(numRows):
-        products.append(dict(product_name=result.ix[id]['product_name'],brand=result.ix[id]['brand'],image=result.ix[id]['image'],price=result.ix[id]['price'],score=result.ix[id]['score']))
+        products.append(dict(product_name=result.ix[id]['product_name'],product_id=result.index[id],brand=result.ix[id]['brand'],image=result.ix[id]['image'],price=result.ix[id]['price'],score=result.ix[id]['score'],discription=result.ix[id]['discription']))
     
     return jsonify(dict(products=products))
 

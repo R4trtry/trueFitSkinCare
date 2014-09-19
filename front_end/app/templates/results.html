@@ -8,6 +8,9 @@
     <meta name="author" content="">
 
     <title>Results</title>
+    <link rel="icon" 
+      type="image/png" 
+      href="../static/images/faviconit/favicon-310.png"/>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/dist/css/bootstrap.css" rel="stylesheet">
@@ -37,7 +40,7 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="../../">Home</a></li>
-            <li><a href="#about">lides</a></li>
+            <li><a href="#about">Slides</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -45,11 +48,10 @@
     </div>
 
     <div class="container">
-          <h2>We recommend:</h2> 
-            <p id="category"}>{{category}}</p>
-            <p>From 1177 products</p>
-            <p>Based on 183,944 reviews</p>
-            <p>Made by 115,594 reviewers</p></td>
+          <h2>We recommend for you the following:</h2> 
+            <p id="category"}>{{category}}</p>            <!-- <p>From 1177 products</p> -->
+            <p>From <big>1177</big> products   based on your <big>personal</big> beauty profile</p>
+            <p>Compared with <big>183,944</big> user reviews from <big>115,594</big> reviewers who also care about their skin</p></td>
             <select id="category_select" class="form-control">
               <option value="moisturizer-skincare">Moisturizer</option>
               <option value="bb-cream-cc-cream">BB & CC cream</option>
@@ -63,12 +65,6 @@
             <div>
               <button id="submit-else" class="btn btn-primary" 
                      onclick="return btntest_onclick()">Need something else?</button>
-              <script language="javascript" type="text/javascript">
-                function btntest_onclick() {
-                  category = document.getElementById('category_select').value;
-                  window.location.href = "/results/"+category;
-                }
-              </script>
             </div>
 
         <!-- <button id="myModal" type="button" data-toggle="modal" data-target="#modalDialog">Launch modal</button> -->
@@ -84,7 +80,8 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary"><a href="http://www.sephora.com" target="_blank">Purchase</a></button>
+              <button type="button" class="btn btn-primary" id="btnPurchase" >Purchase</button> 
+              <!-- <a href="http://www.sephora.com" target="_blank">Purchase</a> onclick="return btnpurchase_onclick()"-->
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -100,36 +97,37 @@
         <div id="modal-table">
         </div> 
     </div>
-
+    <p id='usrProfile' style="color:#fff">{{usrProfile}}</p> 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="../static/js/jquery.js"></script>
     <script src="../static/dist/js/bootstrap.min.js"></script>
     <script>
-      // function add_image_to_box(index, src) {
-      //   var str = '<img id="screen'+ index.toString() + '" src="'+src+'" class="screen2">'
-      //   console.log(str)
-      //   $('.screenshots').append(str);
-      // };      
-      // filepath = '/Users/xuanzhang/Developer/python/scrapping/sephora/static/'      
       
       var category= document.getElementById("category").textContent;//'eye-cream-dark-circles';//
       document.getElementById('category_select').value = category;
+      var usrProfile= document.getElementById("usrProfile").textContent;
       console.log(category)
+
+      function btntest_onclick() {
+        category = document.getElementById('category_select').value;
+        window.location.href = "/results/"+category+usrProfile;
+      }
 
       window.onload=function() {
         
         var products = [];
         
         jQuery.ajax(
-          '../result_json/'+category,
+          '../result_json/'+category+usrProfile,
           {success:
             function(data) {
               console.log(data);
               data = data.products;
               console.log(data);
               for (i=0; i < data.length; i++) {
+                // console.log(data)
 
                 //Build the results
                 var ul = $("<ul>");
@@ -153,11 +151,12 @@
                 var brandContent = $("<p></p>").append(data[i]['brand']);
                 var productContent = $("<p></p>").append(data[i]['product_name']);
                 var priceContent = $("<p></p>").append("$" + data[i]['price']);
-                var bodyContent = $("<div></div>").append(data[i]['image']).append(brandContent).append(productContent).append(priceContent);
+                var discriptionContent = $("<p></p>").append(data[i]['discription']);
+                var bodyContent = $("<div></div>").append(data[i]['image']).append(brandContent).append(productContent).append(priceContent).append(discriptionContent);
 
                 var modalBody = $("<div class='modal-body'></div>").append(bodyContent);
                 var header = $("<div class='modal-header'>More Details about this product</div>").html('<button type="button" class="close" data-dismiss="modal"><span class="sr-only">Close</span></button>');
-                var footer = $("<div class='modal-footer'></div>").html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Purchase</button>');
+                var footer = $("<div class='modal-footer'></div>").html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary"><a href="http://www.sephora.com/' + data[i]['product_id'] + '" target="_blank" style="color:#fff">Purchase</a></button>');
                 var dialog = $("<div class='modal-dialog'></div>").append(modalBody).append(footer);
                 var modalContainer = $("<div class='modal fade'></div>").attr("id", target).append(dialog);
                 $("#modal-table").append(modalContainer);
@@ -166,6 +165,7 @@
           }
         )
       }
+
       setTimeout(function(){
         $("#product0").click(function(){$('#target0').modal();});
         $("#product1").click(function(){$('#target1').modal();});
