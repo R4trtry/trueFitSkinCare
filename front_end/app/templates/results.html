@@ -16,9 +16,11 @@
     <link href="../static/starter-template.css" rel="stylesheet">
     <link href="../static/scroll_h.css" rel="stylesheet">
     <script src="../static/js/dw_scroll_c.js" type="text/javascript"></script>
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <link href="../static/styles.css" rel="stylesheet">
   </head>
 
-  <body>
+  <body id="result">
     <div style="display: none; position: absolute; z-index: 110; left: 400; top: 100; width: 15; height: 15" id="preview_div"></div>
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -43,31 +45,24 @@
     </div>
 
     <div class="container">
-
-        <table style="width:100%,boarder">
-          <!-- <tr> -->
-          <td><h1 class="float">We recommend <p id="category"}>{{category}}</p></h1> 
-            <p>from 1177 products</p>
-            <p>based on 183,944 reviews</p>
-            <p>made by 115,594 reviewers</p></td>
-          <td>
-            <form id="category_form" action="">
-            <select id="category_select">
-            <option value="moisturizer-skincare">Moisturizer</option>
-            <option value="bb-cream-cc-cream">BB & CC cream</option>
-            <option value="eye-cream-dark-circles">Eye cream</option>
-            <option value="face-mask">Face mask</option>
-            <option value="face-serum">Face serum</option>
-            <option value="face-wash-facial-cleanser">Face wash</option>
-            <option value="facial-toner-skin-toner">Toner</option>
-            <option value="night-cream">Night Cream</option>
+          <h2>We recommend:</h2> 
+            <p id="category"}>{{category}}</p>
+            <p>From 1177 products</p>
+            <p>Based on 183,944 reviews</p>
+            <p>Made by 115,594 reviewers</p></td>
+            <select id="category_select" class="form-control">
+              <option value="moisturizer-skincare">Moisturizer</option>
+              <option value="bb-cream-cc-cream">BB & CC cream</option>
+              <option value="eye-cream-dark-circles">Eye cream</option>
+              <option value="face-mask">Face mask</option>
+              <option value="face-serum">Face serum</option>
+              <option value="face-wash-facial-cleanser">Face wash</option>
+              <option value="facial-toner-skin-toner">Toner</option>
+              <option value="night-cream">Night Cream</option>
             </select>
-            </form>
-          </td>
-          <td>
             <div>
-              <input id="button" type="button" value="Need something else?" 
-                     onclick="return btntest_onclick()" />
+              <button id="submit-else" class="btn btn-primary" 
+                     onclick="return btntest_onclick()">Need something else?</button>
               <script language="javascript" type="text/javascript">
                 function btntest_onclick() {
                   category = document.getElementById('category_select').value;
@@ -75,15 +70,35 @@
                 }
               </script>
             </div>
-          </td>
-          <!-- </tr> -->
-        </table>
+
+        <button id="myModal" type="button" data-toggle="modal" data-target="#modalDialog">Launch modal</button>
+
+        <div class="modal fade" id="modalDialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary"><a href="http://www.sephora.com" target="_blank">Purchase</a></button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+
 
         <!-- the result table -->
-        <table id="resulttable" style="padding:2px, width:70%,margin:auto">
-          <tr><td></td><td>Brand</td><td>Product</td><td>Price</td></tr>
-        </table>
-        <br><br><br>     
+        <ul id="result-table">
+        </ul> 
+
+        <!-- the modal table --> 
+        <div id="modal-table">
+        </div> 
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -113,20 +128,45 @@
             function(data) {
               console.log(data);
               data = data.products;
+              console.log(data);
               for (i=0; i < data.length; i++) {
-                htmlstr = '<tr>';
-                htmlstr += '<td>' + data[i]['image'] + '</td>';
-                htmlstr += '<td>' + data[i]['brand'] + '</td>';
-                htmlstr += '<td>' + data[i]['product_name'] + '</td>';
-                htmlstr += '<td> $' + data[i]['price'] + '</td>';
-                htmlstr += '</tr>';
-                console.log(htmlstr)
-                $('#resulttable').append(htmlstr);
+
+                //Build the results
+                var ul = $("<ul>");
+                var id = "product" + i;
+                // Just make the var to link to the associate modal dialog
+                var target = "target" + i;
+                var image = $("<li></li>").append(data[i]['image']);
+                var brand = $("<li></li>").append(data[i]['brand']);
+                var name = $("<li></li>").append(data[i]['product_name']);
+                var price = $("<li></li>").append("$" + data[i]['price']);
+                ul.append(image);
+                ul.append(brand);
+                ul.append(name);
+                ul.append(price);
+                var product = $("<li class='each-product' data-toggle='modal'></li>").append(ul).attr("id", id).attr("data-target", target);
+                
+                $('#result-table').append(product);
+
+                // Build the modal dialog
+                
+                var brandContent = $("<p></p>").append(data[i]['brand']);
+                var productContent = $("<p></p>").append(data[i]['product_name']);
+                var priceContent = $("<p></p>").append("$" + data[i]['price']);
+                var bodyContent = $("<div></div>").append(data[i]['image']).append(brandContent).append(productContent).append(priceContent);
+
+                var modalBody = $("<div class='modal-body'></div>").append(bodyContent);
+                var header = $("<div class='modal-header'>More Details about this product</div>").html('<button type="button" class="close" data-dismiss="modal"><span class="sr-only">Close</span></button>');
+                var footer = $("<div class='modal-footer'></div>").html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Purchase</button>');
+                var dialog = $("<div class='modal-dialog'></div>").append(modalBody).append(footer);
+                var modalContainer = $("<div class='modal fade'></div>").attr("id", target).append(dialog);
+                $("#modal-table").append(modalContainer);
               }
             }
           }
         )
       }
+    $("#product0").click(function(){$('#target0').modal();});
     </script>
   </body>
 </html>

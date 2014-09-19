@@ -1,11 +1,41 @@
+* {
+  font-family: 'Oswald', sans-serif;
+  
+}
+
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+h2, h3, h4 {
+  color: white;
+  font-family: 'Oswald', sans-serif;
+  text-shadow: 0px 0px 6px rgba(255,255,255,0.2);;
+}
+
+h4 {
+  font-size: 22px;
+}
+
 section {
   display: inline-block;
   width: 18%;
   margin: 2%;
 }
 
+body {
+  background: url(../../static/images/background.jpg) no-repeat;
+}
+
 .main-select {
   width: 200px;
+}
+
+.ddcommon {
+  width: 200px;
+  border:none;
 }
 
 .ddArrow{
@@ -16,9 +46,33 @@ section {
   background:#e2e2e4 url(../../static/images/msdropdown/skin1/title-bg.gif) repeat-x left top !important;
 }
 
+.ddTitleText {
+  height: 208px;
+  background: #FFF;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.dd .ddChild li.selected {
+  background: rgba(236, 240, 241, 0.2)
+}
+
+.dd .divider {
+  border: none;
+}
+
 .ddTitleText img{
-  width: 97%;	
-  margin-bottom: -16px;
+  width: 100%;	
+  margin-bottom: 4px;
+}
+
+.dd .ddTitle .ddTitleText {
+  padding: 5px 8px 5px 5px;
+}
+.dd .ddChild li img {
+  width: 100%;
+  margin-top: 12px;
+  padding: 0 !important;
 }
 
 .divider {
@@ -26,5 +80,81 @@ section {
 }
 
 .description {
-  visibility: hidden;
+  text-align: center;
+}
+
+.dd .ddTitle .description {
+  height: 230px;
+  /*overflow: hidden;*/
+}
+
+#title {
+  display: inline-block;
+  font-size: 42px;
+  vertical-align: bottom;
+}
+
+#category, #category_select {
+  width: 200px;  
+  margin: 0 50px;
+  font-size: 25px;
+  height: 50px;
+  display: inline-block;
+}
+
+#submit, #submit-else{
+  font-size: 25px;
+  margin-top: 2px;
+}
+
+.borderRadiusTp {
+  border-radius: 10px;
+  box-shadow: 0px 1px 24px 1px 
+}
+
+#result{
+  background: none;
+}
+
+#result h2, #result h3, #result h4 {
+  color: #000;
+}
+
+#result #category {
+  width: auto;
+  margin: 0;
+}
+
+#result p {
+  font-size: 17px;
+}
+
+#category_select {
+  position: absolute;
+  top: 70px;
+  right: 100px;
+} 
+
+#submit-else {
+  position: absolute;
+  top: 68px;
+  right: 380px;
+}
+
+#result-table{
+  background: rgba(0,0,0,0);
+}
+
+.each-product {
+  display: inline-block;
+  width: 220px;
+  text-align: center;
+  vertical-align: top;
+  margin-bottom: 50px;
+  padding: 15px;
+}
+
+.modal-dialog{
+  background: #FFF;
+  text-align: center;
 }
