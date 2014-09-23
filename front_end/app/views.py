@@ -67,15 +67,11 @@ def result_json(inputvar):
 # load images for landing page
 @app.route("/images_json")
 def images_json():
-    
-    # run the query to get product info
-    db.query("SELECT product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
+    product_list = cfg.sql2df('SELECT product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
         from product join review where product.product_id = review.product_id \
-        group by product.product_id order by ct desc;")
-
-    # compile the query results into json and return
-    query_results = db.store_result().fetch_row(maxrows=0)
+        group by product.product_id order by ct desc;')
     products = []
-    for result in query_results:
-        products.append(dict(sku_id=result[0], category=result[1], brand=result[2], product_name=result[3]))
+    for i in range(len(product_list)):
+        result = product_list.ix[i]
+        products.append(dict(sku_id=result.sku_id, category=result.category, brand=result.brand, product_name=result.product_name))
     return jsonify(dict(products=products))
