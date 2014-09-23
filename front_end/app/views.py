@@ -64,12 +64,11 @@ def result_json(inputvar):
 # load images for landing page
 @app.route("/images_json")
 def images_json():
-  product_list = cfg.sql2df('SELECT Product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
-        from Product join Review where Product.product_id = Review.product_id \
-        group by Product.product_id order by ct desc;')
-  products = []
-  for i in range(len(product_list)):
-    result = product_list.ix[i]
-    products.append(dict(sku_id=result.sku_id, category=result.category, brand=result.brand, product_name=result.product_name))
-  return jsonify(dict(products=products))
-
+    product_list = cfg.sql2df('SELECT product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
+        from product join review where product.product_id = review.product_id \
+        group by product.product_id order by ct desc;')
+    products = []
+    for i in range(len(product_list)):
+        result = product_list.ix[i]
+        products.append(dict(sku_id=result.sku_id, category=result.category, brand=result.brand, product_name=result.product_name))
+    return jsonify(dict(products=products))
