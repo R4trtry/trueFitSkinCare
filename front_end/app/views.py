@@ -6,15 +6,14 @@ import collaborative_filter_engine2 as cfg
 import numpy as np
 
 # specify db connection
-db = MySQLdb.connect(user="root", host="localhost", port=3306, db="insight")#, passwd="dumbled0re"
-
+#db = MySQLdb.connect(user="root", passwd="dumbled0re", host="localhost", port=3306, db="insight")#, passwd="dumbled0re"
+print cfg.sql2df("show tables;")
 # load pre-trained similarity matrix
 simMatrix = np.loadtxt('data_processing/sim_product2.csv',delimiter=',')
 
 # home page
 @app.route("/")
 def hello():
-    print "hi!"
     return render_template('index.html') 
 
 @app.route("/graph")
@@ -33,10 +32,8 @@ def matrix():
 # load result page
 @app.route("/results/<inputvar>")
 def results(inputvar):
-    print "hi!"
     category = inputvar.split('&')[0]
     usrProfile = '&'+'&'.join(inputvar.split('&')[1:])
-    # print category+usrProfile
     return render_template('results.html',category=category,usrProfile=usrProfile)
 
 # load recommendation result and return a html
@@ -61,21 +58,18 @@ def result_json(inputvar):
     products = []
     for id in range(numRows):
         products.append(dict(product_name=result.ix[id]['product_name'],product_id=result.index[id],brand=result.ix[id]['brand'],image=result.ix[id]['image'],price=result.ix[id]['price'],score=result.ix[id]['score'],discription=result.ix[id]['discription']))
-    
+    print products
     return jsonify(dict(products=products))
 
 # load images for landing page
 @app.route("/images_json")
 def images_json():
-    
-    # run the query to get product info
-    db.query("SELECT product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
-        from product join review where product.product_id = review.product_id \
-        group by product.product_id order by ct desc;")
+  product_list = cfg.sql2df('SELECT Product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
+        from Product join Review where Product.product_id = Review.product_id \
+        group by Product.product_id order by ct desc;')
+  products = []
+  for i in range(len(product_list)):
+    result = product_list.ix[i]
+    products.append(dict(sku_id=result.sku_id, category=result.category, brand=result.brand, product_name=result.product_name))
+  return jsonify(dict(products=products))
 
-    # compile the query results into json and return
-    query_results = db.store_result().fetch_row(maxrows=0)
-    products = []
-    for result in query_results:
-        products.append(dict(sku_id=result[0], category=result[1], brand=result[2], product_name=result[3]))
-    return jsonify(dict(products=products))

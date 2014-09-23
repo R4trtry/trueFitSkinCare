@@ -7,10 +7,10 @@ import math
 # get data from database in the form of pandas dataframe
 # given a sql script
 def sql2df(sql):
-    con = MySQLdb.connect('localhost', 'root', '', 'insight')
+    con = MySQLdb.connect('localhost', 'root', 'dumbled0re', 'insight', charset='utf8')
     with con:
         cur = con.cursor(MySQLdb.cursors.DictCursor)
-        df = pd.read_sql_query(sql,con)
+        df = pd.read_sql(sql,con)
     return df
 
 # filter the recommendations with category 
@@ -27,9 +27,10 @@ def recommender(simMatrix, usrProfile, category, product_list):
     print "Making recommendations score..."
     # score = simMatrix[usrProfile].sum(0)
     score = simMatrix[usrProfile]
+    print usrProfile
     score[score==0]=float('nan')
     score=np.nanmean(score,0)
-    print len(score)
+    print score[:10]
     product_c = cate_filter(score,category,product_list)
     
     # normalizing the score such that it's 1-5
