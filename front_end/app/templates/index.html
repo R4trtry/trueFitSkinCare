@@ -46,9 +46,10 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Slides</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">Chang Liu</a></li>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/slides">Slides</a></li>
+            <li><a href="/contact">Contact</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -179,7 +180,10 @@
         for (var i =0; i < 8; i++ ){
           currentId = $("#horiz" + i + "_title").find("img").attr('src');
           sku_id = currentId.split('/')[3].split('.')[0]
-          select += '&'+sku_id;
+          if(sku_id!='rsz_whatever'){
+            select += '&'+sku_id;
+          }
+          
         }
         window.location.href = "/results/"+category+select;
       }
@@ -195,6 +199,7 @@
             function(data) {
               products = data.products;
               var categories = ['moisturizer-skincare','eye-cream-dark-circles','face-mask','face-wash-facial-cleanser','facial-toner-skin-toner','night-cream','bb-cream-cc-cream','face-serum'];
+              
               for (j=0;j< 8;j++){                    
                 counter = 0;
                 for (i=0; i < products.length; i++) {//products.length
@@ -211,17 +216,8 @@
                 str = '<option data-image="' + src +'" data-description="I don\'t have a preference for this category"></option>'    
                 $('#horiz'+j.toString()).append(str);   
               }
-            $(".main-select").msDropdown({visibleRows:10});
 
-            $("#test").on("click", function(){
-              var select = [];
-              var currentId = "";
-              for (var i =0; i < 8; i++ ){
-                currentId = $("#horiz" + i + "_title").find(".description").text();
-                select.push(currentId);
-              }
-              alert(select);
-            });
+            $(".main-select").msDropdown({visibleRows:10});
 
             }
           }

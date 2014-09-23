@@ -6,7 +6,7 @@ import collaborative_filter_engine2 as cfg
 import numpy as np
 
 # specify db connection
-db = MySQLdb.connect(user="root", host="localhost", port=3306, db="insight")
+db = MySQLdb.connect(user="root", passwd="dumbled0re", host="localhost", port=3306, db="insight")
 
 # load pre-trained similarity matrix
 simMatrix = np.loadtxt('data_processing/sim_product2.csv',delimiter=',')
@@ -16,6 +16,19 @@ simMatrix = np.loadtxt('data_processing/sim_product2.csv',delimiter=',')
 def hello():
     print "hi!"
     return render_template('index.html') 
+
+@app.route("/graph")
+def graph():
+    return render_template('graph.html') 
+
+@app.route("/slides")
+def slides():
+    return render_template('slides.html') 
+
+@app.route("/matrix")
+def matrix():
+    return render_template('matrix.html') 
+
 
 # load result page
 @app.route("/results/<inputvar>")
