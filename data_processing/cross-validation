@@ -1,0 +1,92 @@
+import re
+import MySQLdb
+import pandas as pd
+import numpy as np
+import math
+from sklearn.metrics.pairwise import cosine_similarity
+
+
+def sql2df(sql):
+    con = MySQLdb.connect('localhost', 'root', '', 'insight')
+    with con:
+        cur = con.cursor(MySQLdb.cursors.DictCursor)
+        df = pd.read_sql_query(sql,con)
+    return df
+
+def cate_filter(score, category, product_list):
+    score[np.array(product_list['category']!=category)]=float('nan')
+    score = [sqrt(s) for s in score]
+    product_list['score']=score
+    return product_list.sort('score',ascending=False)
+
+def recommender(simMatrix, usrProfile, category, product_list, rating):
+    # score = ratingMatrix.transpose()*(similarity[])
+    count = np.array([len(row.nonzero()[0]) for row in simMatrix.transpose()])
+    score = simMatrix[usrProfile]
+    score[score==0]=float('nan')
+    if not rating:
+        score=np.nanmean(score,0)
+    else:
+        score=np.array(rating)*np.array(score).transpose()
+        score = np.nanmean(score,1)
+        
+#     print "Making recommendations score..."
+    product_c = cate_filter(score/count,category,product_list)
+#     print product_c['score'].max()
+#     product_c['score']=product_c['score']/product_c['score'].max()*4+1
+    return product_c['product_id'].tolist()
+
+# def train_itemcentric():
+product_list = sql2df('select distinct product_id, category from Product order by category, brand;')
+product_id = product_list['product_id'].tolist()
+reviewer_list = sql2df("""select reviewer_id from 
+    (select reviewer_id, reviewer_name, count(Review.review_id) as c 
+    from Reviewer join Review
+    where Review.review_id = Reviewer.review_id 
+    group by reviewer_id 
+    order by reviewer_id) 
+    as review_counts 
+    where review_counts.c > 4;""")
+reviewer_test = sql2df("""select reviewer_id from 
+    (select reviewer_id, reviewer_name, count(Review.review_id) as c 
+    from Reviewer join Review
+    where Review.review_id = Reviewer.review_id 
+    group by reviewer_id 
+    order by reviewer_id) 
+    as review_counts 
+    where review_counts.c >=8 and review_counts.c <=12;""")
+reviewer_id = reviewer_list['reviewer_id'].tolist()
+reviewer_id_test = reviewer_test['reviewer_id'].tolist()
+random.shuffle(reviewer_id_test)
+reviewer_id_test = reviewer_id_test[:200]
+
+reviewer_id_train = list(set(reviewer_id)-set(reviewer_id_test))
+print "Use {0} reviewers for training, {1} reviewers for testing".format(len(reviewer_id_train),len(reviewer_id_test))
+
+ratings = sql2df("""select reviewer_id, product_id, rating
+        from Reviewer join Review
+        where Review.review_id = Reviewer.review_id """)
+category_list = product_list['category']
+
+product_reviewer = []
+# Construct a matrix where one dimension is product, the other is reviewer, the value is rating
+# so for each product in the list
+counter = 0
+for product in product_id:
+    counter += 1
+    if counter %100 ==0:
+        print "Product scanned: " + str(counter) + "/1177 ..."
+    # grab all the ratings for that product
+    product_rating = ratings[ratings['product_id']==product].drop('product_id',1).set_index('reviewer_id').to_dict()['rating']
+
+    score = dict.fromkeys(reviewer_id_train,0)
+    for key in product_rating.keys():
+        if key not in reviewer_id_train:
+            continue
+        score[key] = product_rating[key]
+    product_reviewer.append(score.values())
+
+print "Constructed product_reviewer rating matrix of size", len(product_reviewer),len(product_reviewer[0]), '...'
+
+print "Calculating similarity score..."
+sim = cosine_similarity(product_reviewer,product_reviewer)

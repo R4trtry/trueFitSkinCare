@@ -1,1 +1,4 @@
+*.ipynb
+*.pyc
+*.csv
 *.sql

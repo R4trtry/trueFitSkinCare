@@ -49,6 +49,7 @@ if (typeof $.expr.createPseudo === 'function') {
 	//lower version
 	$.expr[':'].Contains = function (a, i, m) {return $(a).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0; };
 }
+var parsed;
 //dropdown class
 function dd(element, settings) {
 	var settings = $.extend(true,
@@ -345,6 +346,7 @@ function dd(element, settings) {
 		var oDescription = createElement("span", {className: css.description}, parsed.description);
 		oTitleText.appendChild(oDescription);
 		return oTitle;
+
 	};
 	var createFilterBox = function () {
 		var tid = getPostID("postTitleTextID");
@@ -364,7 +366,7 @@ function dd(element, settings) {
 			obj.className = css2 + " " + opt.className;
 		};
 		var li = createElement("li", obj);
-		var parsed = parseOption(opt);
+		parsed = parseOption(opt);
 		if (parsed.title != "") {
 			li.title = parsed.title;
 		};
@@ -1338,9 +1340,11 @@ function dd(element, settings) {
 		};
 		if (value.image != "" && settings.showIcon) {
 			img = createElement("img", {src: value.image});
+			img.setAttribute("id", value.description);
 			$("#" + titleid).prepend(img);
 			if(value.imagecss!="") {
-				img.className = value.imagecss+" ";
+				img.className = "img-option";
+				img.setAttribute("id", parsed.description);
 			};
 			if (value.description == "") {
 				img.className = img.className+css_i.fnone;
@@ -1419,7 +1423,7 @@ function dd(element, settings) {
 	};
 	
 	this.add = function () {
-		var text, value, title, image, description;
+		var text, value, title, image, description, id;
 		var obj = arguments[0];		
 		if (typeof obj == "string") {
 			text = obj;
@@ -1429,6 +1433,7 @@ function dd(element, settings) {
 			text = obj.text || '';
 			value = obj.value || text;
 			title = obj.title || '';
+			id = obj.id || '';
 			image = obj.image || '';
 			description = obj.description || '';
 			//image:imagePath, title:title, description:description, value:opt.value, text:opt.text, className:opt.className||""
@@ -1436,6 +1441,7 @@ function dd(element, settings) {
 			$(opt).data("description", description);
 			$(opt).data("image", image);
 			$(opt).data("title", title);
+			$(opt).data("title", id);
 		};
 		arguments[0] = opt; //this option
 		getElement(element).add.apply(getElement(element), arguments);

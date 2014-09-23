@@ -25,7 +25,11 @@ def cate_filter(score, category, product_list):
 def recommender(simMatrix, usrProfile, category, product_list):
     
     print "Making recommendations score..."
-    score = simMatrix[usrProfile].sum(0)
+    # score = simMatrix[usrProfile].sum(0)
+    score = simMatrix[usrProfile]
+    score[score==0]=float('nan')
+    score=np.nanmean(score,0)
+    print len(score)
     product_c = cate_filter(score,category,product_list)
     
     # normalizing the score such that it's 1-5

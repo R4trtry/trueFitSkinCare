@@ -18,18 +18,27 @@ def sql2df(sql):
         df = pd.read_sql_query(sql,con)
     return df
 
+# filter the recommendations with category 
+# return a list sorted by recommendation score
 def cate_filter(score, category, product_list):
     score[np.array(product_list['category']!=category)]=0
     product_list['score']=score
     return product_list.sort('score',ascending=False)
 
+# recommend list of product in [category] by comparing [usrProfile]
+# with [simMatrix]
 def recommender(simMatrix, usrProfile, category, product_list):
-    # score = ratingMatrix.transpose()*(similarity[])
-    count = np.array([len(row.nonzero()[0]) for row in simMatrix.transpose()])
-    score = simMatrix[usrProfile].sum(0)
+    
     print "Making recommendations score..."
-    product_c = cate_filter(score/count,category,product_list)
-    print product_c['score'].max()
+    # score = simMatrix[usrProfile].sum(0)
+    score = simMatrix[usrProfile[0]]
+    score[score==0]=float('nan')
+    # score=np.nanmean(score,0)
+    score=np.array(usrProfile[1])*np.array(score).transpose()
+    score = np.nanmean(score,1)
+    product_c = cate_filter(score,category,product_list)
+    
+    # normalizing the score such that it's 1-5
     product_c['score']=product_c['score']/product_c['score'].max()*4+1
     return product_c
 
@@ -53,8 +62,11 @@ def prepare_itemcentric():
     product_reviewer = []
     # Construct a matrix where one dimension is product, the other is reviewer, the value is rating
     # so for each product in the list
+    counter = 0
     for product in product_id:
-        print "product id: " + product + "..."
+        counter += 1
+        if counter %10 ==0:
+            print "Product scanned: " + str(counter) + "/1177 ..."
         # grab all the ratings for that product
         product_rating = ratings[ratings['product_id']==product].drop('product_id',1).set_index('reviewer_id').to_dict()['rating']
 
@@ -67,7 +79,7 @@ def prepare_itemcentric():
 
     print "Calculating similarity score..."
     sim = cosine_similarity(product_reviewer,product_reviewer)
-    sim[sim>.99] = 0
+    # sim[sim>.99] = 0
 
     print "Saving similarity matrix to csv..."
     np.savetxt("sim_product.csv", sim, delimiter=",")
@@ -76,17 +88,13 @@ def prepare_itemcentric():
 
 def main():
     # category='face-wash-facial-cleanser'
-    category = 'face-serum'
+    # category = 'face-serum'
+    category = 'moisturizer-skincare'
     # sim = prepare_itemcentric()
     sim = np.loadtxt("sim_product.csv",delimiter=',')
     product_list = sql2df('select distinct product_id, category from Product order by category, brand;')
-    product_c = recommender(sim, [123,293,902,694,381], category, product_list)
-    print product_c[0:10]
-    # return product_c[0:10]
-    result = product_c[:10]
-    result = result.drop('category',1)
-    result = result.set_index('product_id')
-    return result.to_json()
+    product_c = recommender(sim, [[926, 1166, 559, 1099, 246, 688, 690],[5,4,5,5,5,4,5]], category, product_list)
+    print product_c[0:100]
 
 
 if __name__ == "__main__":
