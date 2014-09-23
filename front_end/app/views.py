@@ -6,7 +6,7 @@ import collaborative_filter_engine2 as cfg
 import numpy as np
 
 # specify db connection
-db = MySQLdb.connect(user="root", passwd="dumbled0re", host="localhost", port=3306, db="insight")
+db = MySQLdb.connect(user="root", host="localhost", port=3306, db="insight")#, passwd="dumbled0re"
 
 # load pre-trained similarity matrix
 simMatrix = np.loadtxt('data_processing/sim_product2.csv',delimiter=',')
