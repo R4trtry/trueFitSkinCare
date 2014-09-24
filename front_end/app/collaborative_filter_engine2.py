@@ -18,6 +18,8 @@ def sql2df(sql):
 def cate_filter(score, category, product_list):
     score[np.array(product_list['category']!=category)]=0
     product_list['score']=score
+    product_list = product_list.dropna()
+    print product_list[:10].sort('score',ascending=False)
     return product_list.sort('score',ascending=False)
 
 # recommend list of product in [category] by comparing [usrProfile]
@@ -27,12 +29,10 @@ def recommender(simMatrix, usrProfile, category, product_list):
     print "Making recommendations score..."
     # score = simMatrix[usrProfile].sum(0)
     score = simMatrix[usrProfile]
-    print usrProfile
     score[score==0]=float('nan')
     score=np.nanmean(score,0)
-    print score[:10]
     product_c = cate_filter(score,category,product_list)
-    
+    print product_c[:10] 
     # normalizing the score such that it's 1-5
     product_c['score']=product_c['score']/product_c['score'].max()*4+1
     return product_c

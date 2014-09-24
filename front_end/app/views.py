@@ -5,11 +5,11 @@ from app import app
 import collaborative_filter_engine2 as cfg
 import numpy as np
 
-# specify db connection
-#db = MySQLdb.connect(user="root", passwd="dumbled0re", host="localhost", port=3306, db="insight")#, passwd="dumbled0re"
-print cfg.sql2df("show tables;")
 # load pre-trained similarity matrix
-simMatrix = np.loadtxt('data_processing/sim_product2.csv',delimiter=',')
+SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+csv_url = os.path.join(SITE_ROOT, "static", "sim_product2.csv")
+simMatrix = np.loadtxt(csv_url, delimiter=',')
+#simMatrix = np.loadtxt('./front_end/app/static/sim_product2.csv',delimiter=',')
 
 # home page
 @app.route("/")
@@ -45,12 +45,12 @@ def result_json(inputvar):
     product_list = cfg.sql2df('select brand, product_name, product_id, sku_id, category, price, discription from Product order by category;')
     sku_id = product_list.sku_id.tolist()
     usrProfile = [sku_id.index(u) for u in usrProfile]
-    print'\n\n\n\n'
-    print category
-    print usrProfile
-    print'\n\n\n\n'
+    #print'\n\n\n\n'
+    #print category
+    #print usrProfile
+    #print'\n\n\n\n'
     scores = cfg.recommender(simMatrix, usrProfile, category, product_list)
-    print scores[0:numRows]
+    #print scores[0:numRows]
     result = scores[:numRows]
     result = result.drop('category',1)
     result = result.set_index('product_id')
@@ -64,9 +64,9 @@ def result_json(inputvar):
 # load images for landing page
 @app.route("/images_json")
 def images_json():
-    product_list = cfg.sql2df('SELECT product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
-        from product join review where product.product_id = review.product_id \
-        group by product.product_id order by ct desc;')
+    product_list = cfg.sql2df('SELECT Product.sku_id, category, brand, product_name, count(distinct review_id) as ct \
+        from Product join Review where Product.product_id = Review.product_id \
+        group by Product.product_id order by ct desc;')
     products = []
     for i in range(len(product_list)):
         result = product_list.ix[i]
