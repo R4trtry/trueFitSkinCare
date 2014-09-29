@@ -1,54 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+  <link href="./static/styles2.css" rel="stylesheet">
+</head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<style>
 
-    <title>Results</title>
-    <link rel="icon" 
-      type="image/png" 
-      href="../static/images/faviconit/favicon-310.png"/>
+@import url(http://fonts.googleapis.com/css?family=PT+Serif|PT+Serif:b|PT+Serif:i);
 
-    <!-- Bootstrap core CSS -->
-    <link href="../static/dist/css/bootstrap.css" rel="stylesheet">
+section {
+  background: #fff;
+  color: #000;
+  padding: 2em;
+  font-family: "PT Serif", Baskerville, Georgia;
+}
 
-    <!-- Custom styles for this template -->
-    <link href="../static/starter-template.css" rel="stylesheet">
-    <script src="../static/js/dw_scroll_c.js" type="text/javascript"></script>
-    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-    <link href="../static/styles.css" rel="stylesheet">
-  </head>
+#follow {
+  background: none;
+}
 
-  <body >
-    <div style="display: none; position: absolute; z-index: 110; left: 400; top: 100; width: 15; height: 15" id="preview_div"></div>
+.grey {
+  color: #777;
+}
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">TrueFitSKinCare</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#about">Chang Liu</a></li>
-            <li><a href="../../">Home</a></li>
-            <li class="active"><a href="../../slides">Slides</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+a:link,
+a:visited {
+  color: orange;
+  text-decoration: none;
+}
 
-    <div id="slides">
-    <iframe src="//www.slideshare.net/slideshow/embed_code/39392253" width="800" height="600" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-    </div>
-  </body>
-</html>
+a:hover {
+  text-decoration: underline;
+}
+
+</style>
+<!-- products.jpg background.png -->
+<section style="padding-top:5em;background:url(/static/images/products.jpg);background-size:cover;">
+  <p style="text-align:center;color:#000;font-size:200%;line-height:2em;background-color:white;width:60%;margin:auto">True Fit Skin Care
+  <p style="text-align:center;color:#000;font-size:200%;line-height:1.5em;font-size:1.1em;background-color:white;width:60%;margin:auto;margin-top:10%"> Chang Liu <br> Fellow at Insight Data Science 2014
+</section>
+
+<section id="problems" style="text-align:center;padding-top:5em;">
+  <div class="pagetitle" >What makes it so hard? <b>Overwhelming information</b></div>
+  <div class="problem" id="products"> So many products... <img src="/static/images/products.png" style="height:100%;margin-left:-10%;margin-top:-10%"> </div>
+  <div class="problem" id="reviews" style="visibility: hidden"> So many reviews... <img src="./static/images/reviews.png" style="height:100%;margin-top:-5%"> </div>
+  <div class="problem" id="review" style="visibility: hidden"> Reviews are so long... <img src="./static/images/review.png" style="height:100%;margin-top:-5%"> </div>
+  <div class="problem" id="ingredients" style="visibility: hidden"> So many ingredients... <img src="./static/images/ingredients.png" style="height:100%;margin-top:-5%"> </div>
+  <div class="problem" id="picture" style="visibility: hidden"><img src="./static/images/problem.png" style="height:100%"></div>
+  <!-- style="position:relative;margin-top:-10%;width:100%" -->
+</section>
+
+<section id="backend" style="text-align:center;padding-top:5em;">
+  <div class="pagetitle" >Collaborative Filter using User Reviews from Sephora.com </b></div>
+  <div class="problem" id="data"> <img src="./static/images/data.png" style="width:100%"></div>
+  <div class="problem" id="algorithm" style="visibility: hidden"> <h3 style="text-indent:1em;line-height:.5em;">Algorithm:</h3> 
+    <ul>
+      <li>Item-centric collaborative filter</li>
+      <li>Pearson’s correlation coefficients to measure pairwise similarity</li>
+    </ul></div>
+  <div class="problem" id="equation" style="visibility: hidden"> <img src="./static/images/equation.png" style="width:100%"> </div>
+  <div class="problem" id="arrows" style="visibility: hidden"> <img src="./static/images/arrows.png" style="width:100%;height:100%"> </div>
+  <div class="problem" id="cv" style="visibility: hidden"> <h3 style="text-indent:1em;line-height:.5em;">Cross Validation:</h3> 
+    <ul>
+      <li>5-fold for reviewers</li>
+      <li>Leave-one-out for products</li>
+      <li>Accuracy = <font weight="bold"> 86.3% &plusmn 1%</font></li>
+    </ul></div>
+</section>
+
+<section style="text-align:center;padding-top:5em;">
+  <div class="pagetitle" >Product-Product similarity matrix </b></div>
+  <div class="problem" id="sim"> <img src="./static/images/sim_product_final.png" style="width:100%"></div>
+  <div id="illu" style="text-align:left"> 
+    <br>Pixel color = <br>Pair-wise similarity<br>from 32k users' perspective!</div>
+  <div id="colorbar"> <img src="./static/images/colorbar.png" style="width:100%"> </div>
+</section>
+
+<section style="text-align:center;padding-top:5em;">
+  <div class="pagetitle" ><b>Interesting structures</b> along the diagonal</div>
+  <div class="problem" id="sim"> <img src="./static/images/sim_product_final_line.png" style="width:100%"></div>
+    <div id="illu"> 
+    <br> Squares filled with white
+    <br> &#8660
+    <br>User reviewers are similar 
+    <br>for all products in a brand
+    <br> &#8660
+    <br><b><font color="red">Strong customer loyalty</font></b></div>
+</section>
+
+<section id="examples" style="text-align:center;padding-top:5em;">
+  <div class="pagetitle" > <b>For example...</b> </div>
+  <div class="problem" id="sim"> <img src="./static/images/sim_product_final_line.png" style="width:100%"></div>
+  <div class="problem" id="example"> <img src="./static/images/example.png" style="width:100%"></div>
+</section>
+
+<section id="examples" style="text-align:center;padding-top:5em;">
+  <div class="pagetitle" > <b>For example...</b> </div>
+  <div class="problem" id="sim"> <img src="./static/images/sim_product_final_line.png" style="width:100%"></div>
+  <div class="problem" id="example"> <img src="./static/images/example.png" style="width:100%"></div>
+  <div id="insight"> <span class="bold"> Actionable insights</span> for Sephora.com: 
+    <br>Send marketing emails to new customers of brands with strong customer loyalty!
+  </div>
+</section>
+
+<section style="text-align:center;padding-top:5em;">
+  <!-- <div class="pagetitle" > Hi I'm Chang!<b>Overwhelming information</b></div> -->
+  <div class="problem" id="me"> <img src="./static/images/me.png" style="height:100%;"> </div>
+  <div class="problem" id="cmu"> <img src="./static/images/cmu.png" style="height:100%;"> </div>
+  <div class="problem" id="pipe1"> <img src="./static/images/pipe1.png" style="height:100%;"> </div>
+  <div class="problem" id="pipe2"> <img src="./static/images/pipe2.png" style="height:100%;"> </div>
+  <div class="problem" id="civil"> <img src="./static/images/civil.png" style="height:100%;"> </div>
+  <div class="problem" id="contact"> <em>
+    Chang Liu
+    <br> j8d8l5@gmail.com
+    <br> linkedin.com/in/liuchangcmu
+    <br> github.com/r4trtry </em>
+  </div>
+</section>
+
+<script src="./static/d3.v3.min.js"></script>
+<script src="./static/stack.v1.min.js"></script>
+<script>
+
+function showIt(ID) {  
+  document.getElementById(ID).style.visibility = "visible";  
+} 
+
+function showProblem(){
+  setTimeout("showIt('reviews')", 800);
+  setTimeout("showIt('review')", 1600);
+  setTimeout("showIt('ingredients')", 2400);
+  setTimeout("showIt('picture')", 3600);
+}
+
+function showBackend(){
+  setTimeout("showIt('algorithm')", 2000);
+  setTimeout("showIt('arrows')", 4000);
+  setTimeout("showIt('equation')", 4000);
+  setTimeout("showIt('cv')", 6000);
+}
+
+var mystack = stack()
+    .on("activate", activate)
+    .on("deactivate", deactivate);
+
+var section = d3.selectAll("section"),
+    follow = d3.select("#follow"),
+    followAnchor = d3.select("#follow-anchor"),
+    followIndex = section[0].indexOf(follow.node()),
+
+    problemsIndex = section[0].indexOf(d3.select("#problems").node());
+    backendIndex =  section[0].indexOf(d3.select("#backend").node());
+
+function refollow() {
+  followAnchor.style("top", (followIndex + (1 - mystack.scrollRatio()) / 2 - d3.event.offset) * 100 + "%");
+}
+
+function activate(d, i) {
+  if (i === followIndex) mystack.on("scroll.follow", refollow);
+  if (i == problemsIndex) showProblem();
+  if (i == backendIndex) showBackend();
+}
+
+function deactivate(d, i) {
+  if (i === followIndex) mystack.on("scroll.follow", null);
+}
+
+</script>
