@@ -62,8 +62,8 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("static/miserables.json", function(miserables) {
-// d3.json("static/sim_product_moisturizer.json", function(miserables) {
+// d3.json("static/miserables.json", function(miserables) {
+  d3.json("static/sim_product_moisturizer.json", function(miserables) {
   var matrix = [],
       nodes = miserables.nodes,
       n = nodes.length;

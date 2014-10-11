@@ -24,6 +24,14 @@ def graph():
 def slides():
     return render_template('slides.html') 
 
+@app.route("/slides2")
+def slides2():
+    return render_template('slides2.html')
+
+@app.route("/slidesbw")
+def slidesbw():
+    return render_template('slides_bw.html')
+
 @app.route("/matrix")
 def matrix():
     return render_template('matrix.html') 
